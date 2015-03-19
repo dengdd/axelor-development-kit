@@ -597,7 +597,7 @@ input[readonly], select[readonly], textarea[readonly] {
 
 .record-pager-change input {
 	margin-top: 5px;
-	height: 20px;
+	height: 18px;
 }
 
 .stackbar {

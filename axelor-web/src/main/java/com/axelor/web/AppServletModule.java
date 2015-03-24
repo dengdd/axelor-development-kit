@@ -30,6 +30,7 @@ import com.axelor.app.AppModule;
 import com.axelor.app.AppSettings;
 import com.axelor.app.internal.AppFilter;
 import com.axelor.auth.AuthModule;
+import com.axelor.common.reflections.ClassFinder;
 import com.axelor.common.reflections.Reflections;
 import com.axelor.db.JpaModule;
 import com.axelor.quartz.SchedulerModule;
@@ -84,8 +85,16 @@ public class AppServletModule extends JerseyServletModule {
 		// some common bindings
 		bind(ObjectMapper.class).toProvider(ObjectMapperProvider.class);
 
-		// initialize JPA
-		install(new JpaModule(jpaUnit, true, false));
+        String packages = settings.get("application.packages");
+
+        // initialize JPA
+        JpaModule jpaModule = new JpaModule(jpaUnit, true, false);
+        if (packages != null) {
+            for (String pkg : packages.split(";")) {
+                jpaModule.scan(pkg);
+            }
+        }
+		install(jpaModule);
 
 		// trick to ensure PersistFilter is registered before anything else
 		install(new ServletModule() {
@@ -119,13 +128,15 @@ public class AppServletModule extends JerseyServletModule {
 				new ResponseInterceptor());
 
 		// bind all the web service resources
-		for (Class<?> type : Reflections
-				.findTypes()
-				.within("com.axelor.web")
-				.having(Path.class)
-				.find()) {
-			bind(type);
-		}
+        ClassFinder<?> classFinder = Reflections.findTypes().within("com.axelor.web");
+        if (packages != null) {
+            for (String pkg : packages.split(";")) {
+                classFinder.within(pkg);
+            }
+        }
+        for (Class<?> type : classFinder.having(Path.class).find()) {
+            bind(type);
+        }
 
 		// register the session listener
 		getServletContext().addListener(new AppSessionListener(settings));
@@ -133,7 +144,7 @@ public class AppServletModule extends JerseyServletModule {
 		Map<String, String> params = new HashMap<String, String>();
 
 		params.put(ResourceConfig.FEATURE_REDIRECT, "true");
-		params.put(PackagesResourceConfig.PROPERTY_PACKAGES, "com.axelor;");
+        params.put(PackagesResourceConfig.PROPERTY_PACKAGES, packages != null ? "com.axelor;" + packages : "com.axelor;");
 
 		// enable GZIP encoding filter
 		params.put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS,

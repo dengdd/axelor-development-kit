@@ -62,6 +62,15 @@
     <view type="grid" name="meta-model-grid"/>
     <view type="form" name="meta-model-form"/>
   </action-view>
+  
+  <menuitem name="menu-meta-sequence" parent="menu-model"
+    title="All Sequences"
+    action="action-meta-sequence-views"/>
+
+  <action-view name="action-meta-sequence-views" title="Sequences" model="com.axelor.meta.db.MetaSequence">
+    <view type="grid" name="meta-sequence-grid"/>
+    <view type="form" name="meta-sequence-form"/>
+  </action-view>
 
   <menuitem name="menu-view-all" parent="menu-view-management"
     title="All Views"

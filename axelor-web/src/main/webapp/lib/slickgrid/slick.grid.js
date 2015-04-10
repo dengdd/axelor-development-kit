@@ -1380,7 +1380,12 @@ if (typeof Slick === "undefined") {
       if (options.dataItemColumnValueExtractor) {
         return options.dataItemColumnValueExtractor(item, columnDef);
       }
-      return item[columnDef.field];
+      var field = columnDef.field;
+      var val = item[field];
+      if (val !== undefined && /(image|photo|picture)/.test(field)) {
+          return '<img class="slick-cell-img" src="' + item[field] + '"/>';
+      }
+      return val;
     }
 
     function appendRowHtml(stringArray, row, range) {

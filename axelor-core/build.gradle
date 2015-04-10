@@ -17,6 +17,7 @@ dependencies {
 	compile libs.guice_persist
 	
 	compile libs.jdbc_hsqldb
+    compile libs.jdbc_mysql
 	compile libs.jdbc_postgres
 	compile libs.hibernate
 	compile(libs.hibernate_ehcache) {

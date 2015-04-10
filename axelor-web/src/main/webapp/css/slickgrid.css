@@ -396,3 +396,11 @@
 .inline-editable.editable .slickgrid-editable .slick-row.active .slick-cell-required {
 	background-color: #D2D2FF;
 }
+
+/** add by leo.du **/
+.slick-cell-img {
+    border: 1px #cfcdcd solid;
+    width: 20px;
+    height:20px;
+    padding: 1px;
+}

@@ -231,6 +231,30 @@
     </panel>
     <panel-related field="metaFields" />
   </form>
+  
+  <grid name="meta-sequence-grid" title="Sequences" model="com.axelor.meta.db.MetaSequence"
+  	canNew="false" canEdit="false" canDelete="false" edit-icon="false">
+    <field name="name"/>
+    <field name="prefix"/>
+    <field name="suffix"/>
+    <field name="padding"/>
+    <field name="increment"/>
+    <field name="initial"/>
+    <field name="next"/>
+  </grid>
+
+  <form name="meta-sequence-form" title="Sequence" model="com.axelor.meta.db.MetaSequence"
+  	canAttach="false" canCopy="false" canNew="false" canDelete="false" canEdit="false">
+    <panel title="Overview">
+      <field name="name"/>
+      <field name="prefix"/>
+      <field name="suffix"/>
+      <field name="padding"/>
+      <field name="increment"/>
+      <field name="initial"/>
+      <field name="next"/>
+    </panel>
+  </form>
 
   <selection name="relationship.field.selection">
     <option value="OneToOne">OneToOne</option>

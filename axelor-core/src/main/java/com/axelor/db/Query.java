@@ -593,8 +593,7 @@ public class Query<T extends Model> {
 		}
 
 		@SuppressWarnings("all")
-		public List<Map> fetch(Class<T> model, int limit, int offset) {
-		    Mapper mapper = Mapper.of(model);
+		public List<Map> fetch(Mapper mapper, int limit, int offset) {
 			List<List> data = values(limit, offset);
 			List<Map> result = Lists.newArrayList();
 			

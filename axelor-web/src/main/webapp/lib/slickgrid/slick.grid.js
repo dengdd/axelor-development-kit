@@ -1382,8 +1382,11 @@ if (typeof Slick === "undefined") {
       }
       var field = columnDef.field;
       var val = item[field];
-      if (val !== undefined && /(image|photo|picture)/.test(field)) {
-          return '<img class="slick-cell-img" src="' + item[field] + '"/>';
+      if (/(image|photo|picture)/.test(field)) {
+          if (_.isNull(val) || _.isUndefined(val)) {
+              val = 'img/default-100x100.png';
+          }
+          return '<img class="slick-cell-img" src="' + val + '"/>';
       }
       return val;
     }
@@ -3324,3 +3327,26 @@ if (typeof Slick === "undefined") {
     init();
   }
 }(jQuery));
+
+/** add by leo.du 2015-04-11 **/
+$(function() {
+    var id = 'slick-cell-img-zoomin';
+    var img = '.slick-cell-img';
+    $("body").on('mouseover', img, function(e) {
+        var s = $("<div id = '" + id + "'><img src = " + this.src + "></div>");
+        $("body").append(s);
+        $("#" + id).css({
+            "top" : (e.pageY) + "px",
+            "left" : (e.pageX + 15) + "px"
+        }).show();
+    }).on('mouseout', img, function() {
+        $("#" + id).remove();
+    }).on('mousemove', img, function(e) {
+        $("#" + id).css({
+            "top" : (e.pageY) + "px",
+            "left" : (e.pageX + 15) + "px"
+        });
+    }); 
+
+})
+;

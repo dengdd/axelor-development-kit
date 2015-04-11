@@ -398,6 +398,12 @@
 }
 
 /** add by leo.du 2015-04-11**/
+.slick-cell.binary {
+    text-align: center;
+}
+.slick-header-column.binary .slick-column-name{
+    visibility: hidden;
+}
 .slick-cell-img {
     border: 1px #cfcdcd solid;
     width: 20px;

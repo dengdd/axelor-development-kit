@@ -625,7 +625,7 @@ public class Query<T extends Model> {
 		}
 		
         private boolean isBinaryImage(Property prop, String name, Object value) {
-            return null != prop && prop.getType() == PropertyType.BINARY
+            return null != prop && prop.isImage() && prop.getType() == PropertyType.BINARY
                     && name.toLowerCase().matches(".*(image|photo|picture).*") && byte[].class.isInstance(value);
         }
 

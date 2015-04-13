@@ -1383,10 +1383,9 @@ if (typeof Slick === "undefined") {
       var field = columnDef.field;
       var val = item[field];
       if (/(image|photo|picture)/.test(field)) {
-          if (_.isNull(val) || _.isUndefined(val)) {
-              val = 'img/default-100x100.png';
+          if (!_.isNull(val) && !_.isUndefined(val)) {
+              return '<img class="slick-cell-img" src="' + val + '"/>';
           }
-          return '<img class="slick-cell-img" src="' + val + '"/>';
       }
       return val;
     }

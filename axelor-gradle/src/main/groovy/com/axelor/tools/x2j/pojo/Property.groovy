@@ -66,7 +66,7 @@ class Property {
 		}
 		
 		if ((!attrs['column'] && PojoHelper.isReservedWords(name)) || PojoHelper.isReservedWords(attrs['column'])) {
-			attrs['column'] = "`" + name + "`"
+			attrs['column'] = name + "_"
 		}
 	}
 

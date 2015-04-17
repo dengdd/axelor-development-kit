@@ -11,6 +11,7 @@
 
   	<bind node="user" type="com.axelor.auth.db.User" search="self.code = :code" update="false">
   	  <bind node="@code" to="code" />
+  	  <bind node="@password" to="password" />
  	  <bind node="@name" to="name" />
   	  <bind node="@group" to="group" search="self.code = :group" update="false" />
   	</bind>

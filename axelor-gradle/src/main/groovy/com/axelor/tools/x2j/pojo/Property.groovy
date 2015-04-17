@@ -428,18 +428,21 @@ class Property {
 		return new Annotation(entity, name, empty)
 	}
 
-	private Annotation $column() {
+    private Annotation $column() {
 
-		def column = attrs.column
-		def unique = attrs.unique
+        def column = attrs.column
+        def unique = attrs.unique
 
-		if (column == null && unique == null)
-			return null
+        if ((column == null && PojoHelper.isReservedWords(name)) || PojoHelper.isReservedWords(column))
+            column = "`" + name + "`"
 
-		annon(reference ? "javax.persistence.JoinColumn" : "javax.persistence.Column")
-				.add("name", column)
-				.add("unique", unique, false)
-	}
+        if (column == null && unique == null)
+            return null
+
+        annon(reference ? "javax.persistence.JoinColumn" : "javax.persistence.Column")
+                .add("name", column)
+                .add("unique", unique, false)
+    }
 
 	private Annotation $transient() {
 		if (isTransient()) {

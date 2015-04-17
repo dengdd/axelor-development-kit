@@ -58,7 +58,11 @@ function ViewCtrl($scope, DataSource, ViewService) {
 				name: viewName
 			};
 		}
-		return ViewService.getMetaDef($scope._model, view);
+		var ctx = $scope._context;
+		if ($scope.getContext) {
+			ctx = $scope.getContext();
+		}
+		return ViewService.getMetaDef($scope._model, view, ctx);
 	};
 
 	$scope.loadFields = function() {
@@ -217,6 +221,7 @@ function DSViewCtrl(type, $scope, $element) {
 				}
 				$scope.fields = fields;
 				$scope.fields_related = meta.related;
+				$scope.$hasMessages = meta.hasMessages;
 				$scope.schema = schema;
 				$scope.toolbar = toolbar;
 				$scope.menubar = schema.menubar;

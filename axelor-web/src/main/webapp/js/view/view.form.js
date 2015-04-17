@@ -61,7 +61,8 @@ function FormViewCtrl($scope, $element) {
 	$scope.doRead = function(id) {
 		var params = {
 			fields : _.pluck($scope.fields, 'name'),
-			related: $scope.fields_related
+			related: $scope.fields_related,
+			hasMessages: $scope.$hasMessages
 		};
 		return ds.read(id, params);
 	};
@@ -948,7 +949,7 @@ ui.formBuild = function (scope, schema, fields) {
 				if (type === 'panel') {
 					item.attr('ui-panel-layout', '');
 					item.attr('x-item-span', attrs.itemSpan);
-				} else if (['tabs', 'panel-tabs', 'panel-stack', 'panel-related', 'button-group'].indexOf(type) == -1) {
+				} else if (['tabs', 'panel-tabs', 'panel-stack', 'panel-related', 'panel-mail', 'button-group'].indexOf(type) == -1) {
 					item.attr('ui-table-layout', '');
 				}
 			}
@@ -1020,8 +1021,16 @@ ui.directive('uiViewForm', ['$compile', 'ViewService', function($compile, ViewSe
 			}
 
 			var elems = element.find('[x-field].ng-invalid:not(fieldset)').filter(function() {
-				var isInline = $(this).parents('.slickgrid,.m2o-editor').size() > 0;
-				return !isInline || (isInline && $(this).is(':visible'));
+				var isInline = $(this).parents('.slickgrid,.nested-not-required').size() > 0;
+				if (isInline) {
+					return false;
+				}
+				var elemScope = $(this).scope();
+				if (elemScope.isHidden &&
+					elemScope.isHidden()) {
+					return false;
+				}
+				return true;
 			});
 			var items = elems.map(function () {
 				return {

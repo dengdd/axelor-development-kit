@@ -17,6 +17,7 @@
  */
 package com.axelor.rpc.filter;
 
+import com.axelor.db.internal.DBHelper;
 
 class LikeFilter extends SimpleFilter {
 
@@ -42,6 +43,9 @@ class LikeFilter extends SimpleFilter {
 
 	@Override
 	public String getQuery() {
+		if (DBHelper.isUnaccentEnabled()) {
+			return String.format("(unaccent(UPPER(self.%s)) %s unaccent(?))", getFieldName(), getOperator());
+		}
 		return String.format("(UPPER(self.%s) %s ?)", getFieldName(), getOperator());
 	}
 

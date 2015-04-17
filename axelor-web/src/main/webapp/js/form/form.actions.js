@@ -26,7 +26,8 @@ var equals = angular.equals,
 	isDate = angular.isDate;
 
 function updateValues(source, target, itemScope, formScope) {
-	if (equals(source, target))
+
+	if (equals(source, target) && (!source || !source.$force))
 		return;
 
 	function compact(value) {
@@ -55,7 +56,7 @@ function updateValues(source, target, itemScope, formScope) {
 		if (isObject(value)) {
 			var dest = target[key] || {};
 			if (dest.id === value.id) {
-				if (dest.version) {
+				if (_.isNumber(dest.version)) {
 					dest = _.extend({}, dest);
 					updateValues(value, dest, itemScope. formScope);
 				} else {
@@ -286,14 +287,14 @@ ActionHandler.prototype = {
 		return deferred.promise;
 	},
 
-	_handleSave: function() {
+	_handleSave: function(validateOnly) {
 		var self = this;
 		return this._fireBeforeSave().then(function() {
-			return self.__doHandleSave();
+			return self.__doHandleSave(validateOnly);
 		});
 	},
 
-	__doHandleSave: function() {
+	__doHandleSave: function(validateOnly) {
 
 		this._blockUI();
 
@@ -311,7 +312,7 @@ ActionHandler.prototype = {
 			deferred.reject();
 			return deferred.promise;
 		}
-		if (scope.isDirty && !scope.isDirty()) {
+		if (validateOnly || (scope.isDirty && !scope.isDirty())) {
 			deferred.resolve();
 			return deferred.promise;
 		}
@@ -392,12 +393,24 @@ ActionHandler.prototype = {
 		
 		action = action.replace(/(^\s*,?\s*)|(\s*,?\s*$)/, '');
 
-		var pattern = /(^sync\s*,\s*)|(^sync$)/;
+		var pattern = /,\s*(sync)\s*(,|$)/;
+		if (pattern.test(action)) {
+			var which = pattern.exec(action)[1];
+			axelor.dialogs.error(_t('Invalid use of "{0}" action, must be the first action.', which));
+			deferred.reject();
+			return deferred.promise;
+		}
+
+		pattern = /(^sync\s*,\s*)|(^sync$)/;
 		if (pattern.test(action)) {
 			action = action.replace(pattern, '');
 			return this._fireBeforeSave().then(function() {
 				return self._handleAction(action);
 			});
+		}
+
+		if (action === 'validate') {
+			return this._handleSave(true);
 		}
 
 		if (action === 'save') {
@@ -449,6 +462,19 @@ ActionHandler.prototype = {
 				}, deferred.reject);
 			}
 			return deferred.promise;
+		}
+		
+		if (data.exportFile) {
+			(function () {
+				var link = "ws/files/data-export/" + data.exportFile;
+				var frame = $('<iframe>').appendTo('body').hide();
+				frame.attr("src", link);
+				setTimeout(function(){
+					frame.attr("src", "");
+					frame.remove();
+					frame = null;
+				}, 5000);
+			})();
 		}
 		
 		if (data.signal === 'refresh-app') {
@@ -546,10 +572,10 @@ ActionHandler.prototype = {
 				return promise;
 			})();
 		}
-		
-		if (data.save) {
+
+		if (data.validate || data.save) {
 			scope.$timeout(function () {
-				self._handleSave().then(function(){
+				self._handleSave(!!data.validate).then(function(){
 					scope.ajaxStop(function () {
 						deferred.resolve(data.pending);
 					}, 100);
@@ -562,19 +588,6 @@ ActionHandler.prototype = {
 			formScope.$broadcast(data.signal, data['signal-data']);
 		}
 		
-		if (data.exportFile) {
-			(function () {
-				var link = "ws/files/data-export/" + data.exportFile;
-				var frame = $('<iframe>').appendTo('body').hide();
-				frame.attr("src", link);
-				setTimeout(function(){
-					frame.attr("src", "");
-					frame.remove();
-					frame = null;
-				}, 5000);
-			})();
-		}
-
 		function findItems(name) {
 
 			var items;
@@ -680,17 +693,14 @@ ActionHandler.prototype = {
 				}
 				
 				switch(attr) {
-				case 'required':
-					itemScope.attr('required', value);
-					break;
-				case 'readonly':
-					itemScope.attr('readonly', value);
-					break;
 				case 'hidden':
-					itemScope.attr('hidden', value);
-					break;
+				case 'required':
+				case 'readonly':
 				case 'collapse':
-					itemScope.attr('collapse', value);
+				case 'precision':
+				case 'scale':
+				case 'prompt':
+					itemScope.attr(attr, value);
 					break;
 				case 'title':
 					(function () {
@@ -705,9 +715,6 @@ ActionHandler.prototype = {
 						}
 					})();
 					itemScope.attr('title', value);
-					break;
-				case 'prompt':
-					itemScope.attr('prompt', value);
 					break;
 				case 'domain':
 					if (itemScope.setDomain)
@@ -757,6 +764,48 @@ ActionHandler.prototype = {
 				setAttrs($(this), itemAttrs, i);
 			});
 		});
+
+		if (data.report) {
+			return openReport(data);
+		}
+
+		function openReport(data) {
+			var record = formScope.record || {};
+			if (data.attached) {
+				record.$attachments = (record.$attachments || 0) + 1;
+				axelor.dialogs.confirm(_t('Report attached to current object. Would you like to download?'),
+				function(confirmed) {
+					scope.applyLater(function() {
+						if (confirmed) {
+							var url = "ws/rest/com.axelor.meta.db.MetaFile/" + data.attached.id + "/content/download";
+							axelor.download(url);
+							return deferred.resolve();
+						}
+						deferred.reject();
+					});
+				}, {
+					title: _t('Download'),
+					yesNo: false
+				});
+				return deferred.promise;
+			}
+
+			var url = "ws/files/report/" + data.reportLink;
+			var tab = {
+				title: data.reportFile,
+				resource: url,
+				viewType: 'html'
+			}
+
+			if (['pdf', 'html'].indexOf(data.reportFormat) > -1) {
+				doOpenView(tab);
+			} else {
+				axelor.download(url);
+			}
+
+			scope.$timeout(deferred.resolve);
+			return deferred.promise;
+		}
 		
 		function openTab(scope, tab) {
 			if (scope.openTab) {

@@ -89,6 +89,20 @@
 		}
 	});
 
+	axelor.download = function (url, target) {
+
+		if (target == "_blank") {
+			return window.open(url);
+		}
+
+		var frame = $('<iframe>').appendTo('body');
+		frame.attr("src", url);
+		setTimeout(function(){
+			frame.attr("src", "");
+			frame.remove();
+		}, 100);
+	};
+
 	axelor.$eval = function (scope, expr, context) {
 		if (!scope || !expr) {
 			return null;
@@ -295,8 +309,8 @@
 	
 	module.controller('AppCtrl', AppCtrl);
 	
-	AppCtrl.$inject = ['$rootScope', '$exceptionHandler', '$scope', '$http', '$route', 'authService'];
-	function AppCtrl($rootScope, $exceptionHandler, $scope, $http, $route, authService) {
+	AppCtrl.$inject = ['$rootScope', '$exceptionHandler', '$scope', '$http', '$route', 'authService', 'MessageService', 'NavService'];
+	function AppCtrl($rootScope, $exceptionHandler, $scope, $http, $route, authService, MessageService, NavService) {
 		
 		function getAppInfo(settings) {
 			
@@ -311,6 +325,7 @@
 				mode: settings['application.mode'],
 				sdk: settings['application.sdk'],
 				user: settings['user.name'],
+				userId: settings['user.id'],
 				login: settings['user.login'],
 				homeAction: settings['user.action'],
 				navigator: settings['user.navigator'],
@@ -336,6 +351,19 @@
 		// See index.jsp
 		$scope.app = getAppInfo(__appSettings);
 		$scope.$year = moment().year();
+		$scope.$unreadMailCount = function () {
+			return MessageService.unreadCount();
+		};
+
+		$scope.showMailBox = function() {
+			NavService.openTabByName('mail.inbox');
+			$scope.$timeout(function () {
+				var tab = NavService.getSelected();
+				if (tab) {
+					$scope.$broadcast('on:nav-click', tab);
+				}
+			})
+		};
 	
 		var loginAttempts = 0;
 		var loginWindow = null;
@@ -408,6 +436,12 @@
 			
 			return errorWindow.dialog(hide ? 'close' : 'open').height('auto');
 		}
+
+		function showNotification(options) {
+			axelor.notify.error('<p>' + options.message.replace('\n', '<br>') + '</p>', {
+				title: options.title || options.type || _t('Error')
+			});
+		}
 	
 		$scope.doLogin = function() {
 			
@@ -450,11 +484,13 @@
 				exception = report['class'] || '';
 				
 				if (exception.match(/(OptimisticLockException|StaleObjectStateException)/)) {
-					message = "<b>" + _t('Concurrent updates error.') + '</b><br>' + message;
+					message = "<b>" + _t('Concurrent updates error') + '</b><br>' + message;
 				}
 	
 				stacktrace = report.stacktrace;
 				cause = report.cause;
+			} else if (report.message) {
+				return showNotification(report);
 			} else if (_.isString(report)) {
 				stacktrace = report.replace(/.*<body>|<\/body>.*/g, '');
 			} else {

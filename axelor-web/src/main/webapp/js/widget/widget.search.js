@@ -75,11 +75,18 @@ ui.directive('uiFilterItem', function() {
 				}
 
 				var filter = scope.filter || {};
-				if (filter.type === undefined) {
+				if (filter.type === undefined || !filter.field) {
 					return [];
 				}
 
-				return _.map(OPERATORS_BY_TYPE[filter.type], function(name) {
+				var field = scope.fields[filter.field] || {};
+				var operators = OPERATORS_BY_TYPE[filter.type] || [];
+
+				if (field.target && !field.targetName) {
+					operators = ["isNull", "notNull"];
+				}
+
+				return _.map(operators, function(name) {
 					return {
 						name: name,
 						title: OPERATORS[name]
@@ -287,7 +294,7 @@ function FilterFormCtrl($scope, $element, ViewService) {
 	};
 
 	$scope.fields = {};
-	$scope.filters = [{}];
+	$scope.filters = [{ $new: true }];
 	$scope.operator = 'and';
 	$scope.showArchived = false;
 
@@ -299,7 +306,7 @@ function FilterFormCtrl($scope, $element, ViewService) {
 	$scope.addFilter = function(filter) {
 		var last = _.last($scope.filters);
 		if (last && !(last.field && last.operator)) return;
-		$scope.filters.push(filter || {});
+		$scope.filters.push(filter || { $new: true });
 	};
 
 	this.removeFilter = function(filter) {
@@ -336,6 +343,10 @@ function FilterFormCtrl($scope, $element, ViewService) {
 		if (data) {
 			data.criteria = criteria;
 		}
+	});
+
+	$scope.$on('on:clear-filter', function (e) {
+		$scope.clearFilter();
 	});
 
 	function select(custom) {
@@ -425,6 +436,11 @@ function FilterFormCtrl($scope, $element, ViewService) {
 					filter.operator !== 'notNull')) {
 				criterion.fieldName += '.' + filter.targetName;
 			}
+			if (/-many/.test(filter.type) && (
+					filter.operator !== 'isNull' ||
+					filter.operator !== 'notNull')) {
+				criterion.fieldName += '.id';
+			}
 
 			if (criterion.operator == "true") {
 				criterion.operator = "=";
@@ -449,6 +465,10 @@ function FilterFormCtrl($scope, $element, ViewService) {
 
 			if (criterion.operator == "between" || criterion.operator == "notBetween") {
 				criterion.value2 = filter.value2;
+			}
+
+			if (filter.$new) {
+				criterion.$new = true;
 			}
 
 			criteria.criteria.push(criterion);
@@ -594,6 +614,7 @@ ui.directive('uiFilterBox', function() {
 
 				var selected = live ? !filter.$selected : filter.$selected;
 				var selection = isCustom ? current.customs : current.domains;
+				var applyAll = (handler.schema||{}).customSearch === false;
 
 				if (live) {
 					$scope.onClear();
@@ -609,14 +630,14 @@ ui.directive('uiFilterBox', function() {
 					selection.splice(index, 1);
 				}
 
-				if (isCustom && live) {
+				if (isCustom && (live || applyAll)) {
 					$scope.custName = filter.$selected ? filter.name : null;
 					$scope.custTitle = filter.$selected ? filter.title : '';
 					$scope.custShared = filter.$selected ? filter.shared : false;
 					return $scope.$broadcast('on:select-custom', filter, selection);
 				}
 
-				if (live) {
+				if (live || applyAll) {
 					$scope.$broadcast('on:select-domain', filter);
 				}
 			};
@@ -743,6 +764,8 @@ ui.directive('uiFilterBox', function() {
 				}
 			};
 
+			$scope.tagItems = [];
+
 			$scope.onFilter = function(criteria) {
 
 				if (criteria) {
@@ -812,18 +835,49 @@ ui.directive('uiFilterBox', function() {
 					});
 				}
 
+				var tag = {};
+				var all = _.chain([$scope.viewFilters, $scope.custFilters])
+				   .flatten()
+				   .filter(function (item) {
+					  return item.$selected;
+				   })
+				   .pluck('title')
+				   .value();
+
+				var nCustom = _.filter((criteria||{}).criteria, function (item) { return item.$new; }).length;
+				if (nCustom > 0) {
+					all.push(_t('Custom ({0})', nCustom));
+				}
+
+				if (all.length === 1) {
+					tag.title = all[0];
+				}
+				if (all.length > 1) {
+					tag.title = _t('Filters ({0})', all.length);
+					tag.help = all.join(', ');
+				}
+
+				if (all.length === 0) {
+					$scope.tagItems = [];
+				} else {
+					$scope.tagItems = [tag];
+				}
+
 				handler.filter(search);
 			};
 
 			$scope.onFreeSearch = function() {
 
-				var filters = new Array(),
+				var filters = [],
 					fields = {},
 					text = this.custTerm,
 					number = +(text);
 
-				fields = _.extend({}, this.$parent.fields, this.fields);
 				text = text ? text.trim() : null;
+
+				if ((handler.schema || {}).freeSearch === 'all') {
+					fields = _.extend({}, this.$parent.fields, this.fields);
+				}
 
 				if (this.nameField && text) {
 					filters.push({
@@ -847,6 +901,7 @@ ui.directive('uiFilterBox', function() {
 					case 'integer':
 					case 'decimal':
 						if (_.isNaN(number) || !text || !_.isNumber(number)) continue;
+						if (field.type === 'integer' && (number > 2147483647 || number < -2147483648)) continue;
 						fieldName = name;
 						operator = '=';
 						value = number;
@@ -909,6 +964,15 @@ ui.directive('uiFilterBox', function() {
 				});
 			};
 			
+			scope.onClearFilter = function () {
+				hideMenu();
+				scope.visible = true;
+				scope.$broadcast('on:clear-filter');
+				scope.$timeout(function () {
+					scope.visible = false;
+				});
+			};
+
 			// append menu to view page to overlap the view
 			scope.$timeout(function() {
 				element.parents('.view-container').after(menu);
@@ -946,6 +1010,15 @@ ui.directive('uiFilterBox', function() {
 				}
 			}
 
+			scope.handler.$watch('schema.freeSearch', function (value, old) {
+				if (value === 'none') {
+					var input = element.find('input:first')
+						.addClass('not-readonly')
+						.attr('readonly', true)
+						.click(scope.onSearch.bind(scope));
+				}
+			});
+
 			element.on('$destroy', function() {
 				$(document).on('mousedown.search-menu', onMouseDown);
 				if (menu) {
@@ -957,15 +1030,28 @@ ui.directive('uiFilterBox', function() {
 		replace: true,
 		template:
 		"<div class='filter-box'>" +
-			"<input type='text' class='search-query' ng-model='custTerm'>" +
-			"<span class='search-icons'>" +
+			"<div class='tag-select picker-input search-query'>" +
+			  "<ul>" +
+				"<li class='tag-item label label-info' ng-repeat='item in tagItems'>" +
+					"<span class='tag-text' title='{{item.help}}'>{{item.title}}</span> " +
+					"<i class='fa fa-times fa-small' ng-click='onClearFilter()'></i>" +
+				"</li>" +
+				"<li class='tag-selector' ng-show='!tagItems.length'>" +
+					"<input type='text' autocomplete='off' ng-model='custTerm'>" +
+				"</li>" +
+			  "</ul>" +
+			  "<span class='picker-icons'>" +
 				"<i ng-click='onSearch($event)' class='fa fa-caret-down hidden-phone'></i>"+
 				"<i ng-click='onRefresh()' class='fa fa-search'></i>" +
-			"</span>" +
+			  "</span>" +
+			"</div>" +
 			"<div class='filter-menu hidden-phone' ui-watch-if='visible'>" +
 				"<strong x-translate>Advanced Search</strong>" +
 				"<hr>"+
 				"<div class='filter-list'>" +
+					"<dl ng-show='!hasFilters() && handler.schema.customSearch == false' style='display: hidden;'>" +
+						"<dd><span x-translate>No filters available</span></dd>" +
+					"</dl>" +
 					"<dl ng-show='hasFilters(1)'>" +
 						"<dt><i class='fa fa-floppy-o'></i><span x-translate> Filters</span></dt>" +
 						"<dd ng-repeat='filter in viewFilters' class='checkbox'>" +
@@ -985,19 +1071,21 @@ ui.directive('uiFilterBox', function() {
 						"</dd>" +
 					"</dl>" +
 				"</div>" +
-				"<hr ng-show='hasFilters()'>" +
-				"<div ui-filter-form x-model='model'></div>" +
-				"<hr>" +
-				"<div class='form-inline'>" +
-					"<div class='control-group'>" +
-						"<input type='text' placeholder='{{\"Save filter as\" | t}}' ng-model='custTitle'> " +
-						"<label class='checkbox'>" +
-							"<input type='checkbox' ng-model='custShared'><span x-translate>Share</span>" +
-						"</label>" +
+				"<div ng-hide='handler.schema.customSearch == false'>" +
+					"<hr ng-show='hasFilters()'>" +
+					"<div ui-filter-form x-model='model'></div>" +
+					"<hr>" +
+					"<div class='form-inline'>" +
+						"<div class='control-group'>" +
+							"<input type='text' placeholder='{{\"Save filter as\" | t}}' ng-model='custTitle'> " +
+							"<label class='checkbox'>" +
+								"<input type='checkbox' ng-model='custShared'><span x-translate>Share</span>" +
+							"</label>" +
+						"</div>" +
+						"<button class='btn btn-small' ng-click='onSave()' ng-disabled='!custTitle'><span x-translate>Save</span></button> " +
+						"<button class='btn btn-small' ng-click='onSave(true)' ng-show='canSaveNew()'><span x-translate>Save as</span></button> " +
+						"<button class='btn btn-small' ng-click='onDelete()' ng-show='custName'><span x-translate>Delete</span></button>" +
 					"</div>" +
-					"<button class='btn btn-small' ng-click='onSave()' ng-disabled='!custTitle'><span x-translate>Save</span></button> " +
-					"<button class='btn btn-small' ng-click='onSave(true)' ng-show='canSaveNew()'><span x-translate>Save as</span></button> " +
-					"<button class='btn btn-small' ng-click='onDelete()' ng-show='custName'><span x-translate>Delete</span></button>" +
 				"</div>" +
 			"</div>" +
 		"</div>"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema targetNamespace="http://axelor.com/xml/ns/object-views"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-  attributeFormDefault="unqualified" xmlns:tns="http://axelor.com/xml/ns/object-views" version="3.1">
+  attributeFormDefault="unqualified" xmlns:tns="http://axelor.com/xml/ns/object-views" version="4.0">
 
   <xsd:element name="object-views">
     <xsd:complexType>
@@ -29,11 +29,19 @@
         <xsd:element name="action-export" type="tns:ActionExport" />
         <xsd:element name="action-group" type="tns:ActionGroup" />
         <xsd:element name="action-workflow" type="tns:ActionWorkflow" />
+        <xsd:element name="action-report" type="tns:ActionReport" />
       </xsd:choice>
     </xsd:complexType>
   </xsd:element>
 
   <xsd:complexType name="MenuItem">
+    <xsd:attribute name="id" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+        If overriding some existing one, provide an unique id to identify this one.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
     <xsd:attribute name="name" type="xsd:string" use="required">
       <xsd:annotation>
         <xsd:documentation>
@@ -69,11 +77,9 @@
         </xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
-    <xsd:attribute name="priority" type="xsd:string">
+    <xsd:attribute name="order" type="xsd:string">
       <xsd:annotation>
-        <xsd:documentation>
-          Define menu sequence priority. Higher priority menu item shows up then the lower one.
-        </xsd:documentation>
+        <xsd:documentation>Specify menu sequence order.</xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
     <xsd:attribute name="groups" type="xsd:string">
@@ -104,6 +110,11 @@
         </xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
+    <xsd:attribute name="hidden" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>Specify whether to hide the menu with given name.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
   </xsd:complexType>
 
   <xsd:complexType name="ActionMenuItem">
@@ -111,7 +122,6 @@
       <xsd:extension base="tns:MenuItem">
         <xsd:attribute name="icon" use="prohibited" />
         <xsd:attribute name="groups" use="prohibited" />
-        <xsd:attribute name="priority" use="prohibited" />
         <xsd:attribute name="category" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation>
@@ -288,6 +298,13 @@
   </xsd:complexType>
 
   <xsd:complexType name="AbstractWidget" abstract="true">
+    <xsd:attribute name="if" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+          Only use this widget if the given expression is true.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
     <xsd:attribute name="if-module" type="xsd:string">
       <xsd:annotation>
         <xsd:documentation>
@@ -475,7 +492,26 @@
             <xsd:extension base="xsd:string">
               <xsd:attribute name="value" type="xsd:string" use="required">
                 <xsd:annotation>
-                  <xsd:documentation>Value stored in database.</xsd:documentation>
+                  <xsd:documentation>Option value stored in database.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="icon" type="xsd:string">
+                <xsd:annotation>
+                  <xsd:documentation>Image icon to show for this item.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="order" type="xsd:int">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  Specify the sequence number to order the option.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="hidden" type="xsd:boolean">
+                <xsd:annotation>
+                  <xsd:documentation>
+                  Specify whether to hide this option from selection.
+                  </xsd:documentation>
                 </xsd:annotation>
               </xsd:attribute>
               <xsd:anyAttribute processContents="skip" />
@@ -567,6 +603,30 @@
     <xsd:attribute name="x-labels" type="xsd:boolean">
       <xsd:annotation>
         <xsd:documentation>Specify whether to show lebels in ImageSelect widget.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="x-order" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>Specify the order of suggest box list.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="x-limit" type="xsd:int">
+      <xsd:annotation>
+        <xsd:documentation>Specify the maximum number of items in suggest box list.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="x-precision" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          The precision of the decimal value (total number of digits).
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="x-scale" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          The scale of the decimal value (total number of digits in decimal part).
+        </xsd:documentation>
       </xsd:annotation>
     </xsd:attribute>
   </xsd:attributeGroup>
@@ -735,8 +795,9 @@
           <xsd:element name="toolbar" type="tns:Toolbar" minOccurs="0" />
           <xsd:element name="menubar" type="tns:Menubar" minOccurs="0" />
           <xsd:element name="hilite" type="tns:Hilite" minOccurs="0" maxOccurs="unbounded" />
-          <xsd:element name="field" type="tns:GridField" maxOccurs="unbounded" />
-          <xsd:element name="button" type="tns:Button" minOccurs="0" maxOccurs="unbounded" />
+          <xsd:choice maxOccurs="unbounded">
+            <xsd:group ref="tns:GridWidgets" />
+          </xsd:choice>
         </xsd:sequence>
         <xsd:attribute name="expandable" type="xsd:boolean" />
         <xsd:attribute name="orderBy" type="xsd:string">
@@ -796,6 +857,35 @@
     <xsd:complexContent>
       <xsd:extension base="tns:AbstractGridView">
         <xsd:attributeGroup ref="tns:ObjectViewAttributes" />
+        <xsd:attribute name="customSearch" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>Specify whether advanced custom search is enabled.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="freeSearch" default="name">
+          <xsd:annotation>
+            <xsd:documentation>Specify the free search mode</xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="name">
+                <xsd:annotation>
+                  <xsd:documentation>Search on name field only.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:enumeration>
+              <xsd:enumeration value="all">
+                <xsd:annotation>
+                  <xsd:documentation>Search all searchable fields.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:enumeration>
+              <xsd:enumeration value="none">
+                <xsd:annotation>
+                  <xsd:documentation>Don't allow free search.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:enumeration>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -984,6 +1074,20 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
+    <xsd:complexType name="PanelMail">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractPanel">
+        <xsd:sequence>
+          <xsd:element name="mail-messages">
+            <xsd:complexType>
+              <xsd:attribute name="limit" type="xsd:int"></xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="mail-followers" minOccurs="0"></xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
 
   <xsd:complexType name="Dashlet">
     <xsd:complexContent>
@@ -1019,19 +1123,20 @@
         <xsd:sequence>
           <xsd:element name="toolbar" type="tns:Toolbar" minOccurs="0" />
           <xsd:element name="menubar" type="tns:Menubar" minOccurs="0" />
-            <xsd:choice minOccurs="0" maxOccurs="1">
-              <xsd:choice maxOccurs="unbounded">
-                <xsd:element name="panel" type="tns:Panel" />
-                <xsd:element name="panel-include" type="tns:FormInclude" />
-                <xsd:element name="panel-dashlet" type="tns:Dashlet" />
-                <xsd:element name="panel-related" type="tns:PanelRelated" />
-                <xsd:element name="panel-stack" type="tns:PanelTabs" />
-                <xsd:element name="panel-tabs" type="tns:PanelTabs" />
-              </xsd:choice>
-              <xsd:choice maxOccurs="unbounded">
-                <xsd:group ref="tns:FormWidgets" />
-              </xsd:choice>
+          <xsd:choice minOccurs="0" maxOccurs="1">
+            <xsd:choice maxOccurs="unbounded">
+              <xsd:element name="panel" type="tns:Panel" />
+              <xsd:element name="panel-include" type="tns:FormInclude" />
+              <xsd:element name="panel-dashlet" type="tns:Dashlet" />
+              <xsd:element name="panel-related" type="tns:PanelRelated" />
+              <xsd:element name="panel-stack" type="tns:PanelTabs" />
+              <xsd:element name="panel-tabs" type="tns:PanelTabs" />
             </xsd:choice>
+            <xsd:choice maxOccurs="unbounded">
+              <xsd:group ref="tns:FormWidgets" />
+            </xsd:choice>
+          </xsd:choice>
+          <xsd:element name="panel-mail" type="tns:PanelMail" minOccurs="0" />
         </xsd:sequence>
         <xsd:attribute name="css" type="xsd:string"/>
         <xsd:attribute name="cols" type="xsd:int">
@@ -2008,6 +2113,13 @@
     </xsd:complexContent>
   </xsd:complexType>
 
+  <xsd:group name="GridWidgets">
+    <xsd:choice>
+      <xsd:element name="field" type="tns:GridField" />
+      <xsd:element name="button" type="tns:Button" />
+    </xsd:choice>
+  </xsd:group>
+
   <xsd:group name="FormWidgets">
     <xsd:choice>
       <xsd:element name="include" type="tns:FormInclude" />
@@ -2042,6 +2154,13 @@
   </xsd:group>
 
   <xsd:complexType name="AbstractAction" abstract="true">
+    <xsd:attribute name="id" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+        If overriding some existing one, provide an unique id to identify this one.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
     <xsd:attribute name="name" type="xsd:string" use="required">
       <xsd:annotation>
         <xsd:documentation>Action name.</xsd:documentation>
@@ -2330,6 +2449,13 @@
                   <xsd:documentation>Param value.</xsd:documentation>
                 </xsd:annotation>
               </xsd:attribute>
+              <xsd:attribute name="home" type="xsd:boolean">
+                <xsd:annotation>
+                  <xsd:documentation>
+                    Specify whether this action can be used as home action.
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="domain" type="xsd:string" minOccurs="0">
@@ -2570,6 +2696,48 @@
   <xsd:complexType name="ActionWorkflow">
     <xsd:complexContent>
       <xsd:extension base="tns:AbstractModelAction"></xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ActionReport">
+    <xsd:complexContent>
+      <xsd:extension base="tns:AbstractAction">
+        <xsd:sequence>
+          <xsd:element name="param" type="tns:ActContext" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>Define a report parameter.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="design" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>Specify the report design name (rptdesign)</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="output" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>Specify the report output name</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="format">
+          <xsd:annotation>
+            <xsd:documentation>Specify the output format.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="pdf" />
+              <xsd:enumeration value="html" />
+              <xsd:enumeration value="doc" />
+              <xsd:enumeration value="xsl" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="attachment" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>Specify whether to attach the generatd report to current object</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 

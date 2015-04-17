@@ -17,6 +17,7 @@
  */
 package com.axelor.web;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,12 @@ import com.axelor.common.reflections.Reflections;
 import com.axelor.db.JpaModule;
 import com.axelor.quartz.SchedulerModule;
 import com.axelor.rpc.ObjectMapperProvider;
+import com.axelor.rpc.Request;
+import com.axelor.rpc.RequestFilter;
 import com.axelor.rpc.Response;
+import com.axelor.rpc.ResponseInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.servlet.ServletModule;
@@ -109,14 +114,26 @@ public class AppServletModule extends JerseyServletModule {
 		install(new SchedulerModule());
 
 		// no-cache filter
-		if (!settings.isProduction()) {
-			filter("*").through(NoCacheFilter.class);
-		}
+		filter("/js/*", NoCacheFilter.STATIC_URL_PATTERNS).through(NoCacheFilter.class);
 
 		// intercept all response methods
 		bindInterceptor(Matchers.any(),
 				Matchers.returns(Matchers.subclassesOf(Response.class)),
 				new ResponseInterceptor());
+
+		// intercept request accepting methods
+		bindInterceptor(Matchers.inSubpackage("com.axelor.web.service"),
+				new AbstractMatcher<Method>() {
+					@Override
+					public boolean matches(Method t) {
+						for (Class<?> c : t.getParameterTypes()) {
+							if (Request.class.isAssignableFrom(c)) {
+								return true;
+							}
+						}
+						return false;
+					}
+				}, new RequestFilter());
 
 		// bind all the web service resources
 		for (Class<?> type : Reflections
@@ -135,11 +152,11 @@ public class AppServletModule extends JerseyServletModule {
 		params.put(ResourceConfig.FEATURE_REDIRECT, "true");
 		params.put(PackagesResourceConfig.PROPERTY_PACKAGES, "com.axelor;");
 
-		// enable GZIP encoding filter
-		params.put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS,
-				GZIPContentEncodingFilter.class.getName());
-		params.put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS,
-				GZIPContentEncodingFilter.class.getName());
+		// enable some filters
+		String filters = RequestFilter.class.getName() + "," + GZIPContentEncodingFilter.class.getName();
+
+		params.put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, filters);
+		params.put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, filters);
 
 		serve("_init").with(InitServlet.class);
 		serve("/ws/*").with(GuiceContainer.class, params);

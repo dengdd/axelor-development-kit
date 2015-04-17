@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.axelor.common.StringUtils;
 import com.axelor.db.Model;
 import com.axelor.db.mapper.Mapper;
+import com.axelor.i18n.I18n;
 import com.axelor.meta.ActionHandler;
 import com.axelor.meta.MetaStore;
 import com.axelor.rpc.Response;
@@ -58,6 +59,25 @@ public class ActionGroup extends ActionIndex {
 		ActionItem item = new ActionItem();
 		item.setName(name);
 		this.actions.add(item);
+	}
+
+	/**
+	 * Validate the action sequence in the group.
+	 *
+	 */
+	public void validate() throws IllegalStateException {
+		if (actions == null || actions.isEmpty()) return;
+		int index = 0;
+		for (ActionItem item : actions) {
+			index += 1;
+			Action action = findAction(item.getName());
+			if (action instanceof ActionReport && index < actions.size()) {
+				String message = String.format(
+						I18n.get("Invalid use of action-record: %s, must be the last action."),
+						action.getName());
+				throw new IllegalStateException(message);
+			}
+		}
 	}
 
 	private String getPending(int index, String... prepend) {
@@ -122,6 +142,9 @@ public class ActionGroup extends ActionIndex {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Object evaluate(ActionHandler handler) {
 
+		// validate the action group
+		this.validate();
+
 		List<Object> result = Lists.newArrayList();
 		Iterator<ActionItem> iter = actions.iterator();
 
@@ -136,18 +159,18 @@ public class ActionGroup extends ActionIndex {
 
 			log.debug("action: {}", name);
 
-			if ("save".equals(name)) {
+			if ("save".equals(name) || "validate".equals(name)) {
 				if (!element.test(handler)) {
-					log.debug("action '{}' doesn't meet the condition: {}", "save", element.getCondition());
+					log.debug("action '{}' doesn't meet the condition: {}", name, element.getCondition());
 					continue;
 				}
 				String pending = this.getPending(i);
 				Map<String, Object> res = Maps.newHashMap();
-				res.put("save", true);
+				res.put(name, true);
 				res.put("pending", pending);
 				result.add(res);
 				if (!StringUtils.isBlank(pending)) {
-					log.debug("wait for 'save', pending actions: {}", pending);
+					log.debug("wait for '{}', pending actions: {}", name, pending);
 				}
 				break;
 			}
@@ -222,7 +245,8 @@ public class ActionGroup extends ActionIndex {
             		last.containsKey("info") ||
                 	last.containsKey("alert") ||
                 	last.containsKey("error") ||
-                	last.containsKey("save")) {
+                	last.containsKey("save") ||
+                	last.containsKey("validate")) {
             		String previous = (String) last.get("pending");
             		String pending = this.getPending(i, previous);
             		last.put("pending", pending);

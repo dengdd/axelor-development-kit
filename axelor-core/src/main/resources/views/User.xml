@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_3.1.xsd">
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
   <selection name="select.language">
     <option value="en">English</option>
@@ -20,13 +20,13 @@
     onLoad="com.axelor.auth.AuthService:preferences">
     <panel title="Overview">
       <field name="name" placeholder="user name" onChange="action-condition-user-validName" validIf="name.length >= 2"/>
-      <field name="code" placeholder="login name" onChange="action-condition-user-validCode" validIf="code.length >= 2"/>
+      <field name="code" placeholder="login name" onChange="action-condition-user-validCode" validIf="code.length >= 2" readonlyIf="id &amp;&amp; code == 'admin'"/>
       <field name="group" placeholder="user group"/>
       <field name="email" widget="Email"/>
       <field name="language"/>
       <panel stacked="true">
         <field name="homeAction" hidden="true" x-bind="{{__actionSelect.name}}"/>
-        <field name="__actionSelect" title="Action" widget="SuggestBox" canNew="false" target="com.axelor.meta.db.MetaAction" target-name="name" domain="self.type = 'action-view'"/>
+        <field name="__actionSelect" title="Action" widget="SuggestBox" canNew="false" target="com.axelor.meta.db.MetaAction" target-name="name" domain="self.type = 'action-view' and self.home = true"/>
       </panel>
     </panel>
     <panel title="Authorization">
@@ -46,13 +46,15 @@
   </form>
 
   <form name="user-preferences-form" title="Preferences" model="com.axelor.auth.db.User"
-    onNew="com.axelor.auth.AuthService:preferences">
+    onNew="com.axelor.auth.AuthService:preferences"
+    onSave="com.axelor.auth.AuthService:validate">
     <panel title="User preferences" itemSpan="12">
       <field name="email" widget="Email"/>
       <field name="language"/>
-      <panel stacked="true">
-        <field name="homeAction" hidden="true" x-bind="{{__actionSelect.name}}"/>
-        <field name="__actionSelect" title="Action" widget="SuggestBox" canNew="false" target="com.axelor.meta.db.MetaAction" target-name="name" domain="self.type = 'action-view'"/>
+      <field name="change" title="Change password?" widget="boolean"/>
+      <panel showIf="change">
+        <field name="newPassword" title="Password" placeholder="new password" widget="password" requiredIf="change" validIf="(!change) || (newPassword.length >= 4 &amp;&amp; confirm == newPassword)"/>
+        <field name="confirm" title="Confirm" placeholder="confirm password" widget="password"/>
       </panel>
     </panel>
   </form>

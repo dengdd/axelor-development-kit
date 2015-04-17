@@ -17,6 +17,8 @@
  */
 package com.axelor.rpc;
 
+import static com.axelor.common.StringUtils.isBlank;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Method;
@@ -40,6 +42,7 @@ import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.axelor.common.Inflector;
 import com.axelor.db.JPA;
 import com.axelor.db.JpaRepository;
 import com.axelor.db.JpaSecurity;
@@ -52,7 +55,12 @@ import com.axelor.db.mapper.Property;
 import com.axelor.db.mapper.PropertyType;
 import com.axelor.i18n.I18n;
 import com.axelor.i18n.I18nBundle;
+import com.axelor.meta.MetaStore;
+import com.axelor.inject.Beans;
+import com.axelor.mail.db.repo.MailMessageRepository;
+import com.axelor.meta.db.MetaAction;
 import com.axelor.meta.db.MetaTranslation;
+import com.axelor.meta.schema.views.Selection;
 import com.axelor.rpc.filter.Filter;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Function;
@@ -192,40 +200,58 @@ public class Resource<T extends Model> {
 
 	private List<String> getSortBy(Request request) {
 
-		List<String> sortBy = Lists.newArrayList();
-		Mapper mapper = Mapper.of(model);
+		final List<String> sortBy = Lists.newArrayList();
+		final List<String> sortOn = Lists.newArrayList();
+		final Mapper mapper = Mapper.of(model);
+
+		boolean unique = true;
+		boolean desc = true;
 
 		if (request.getSortBy() != null) {
-			for(String spec : request.getSortBy()) {
-				String name = spec;
-				if (name.startsWith("-")) {
-					name = name.substring(1);
-				}
-				Property property = mapper.getProperty(name);
-				if (property != null && property.isReference()) {
-					// use name field to sort many-to-one column
-					Mapper m = Mapper.of(property.getTarget());
-					Property p = m.getNameField();
-					if (p != null) {
-						spec = spec + "." + p.getName();
-					}
-				}
-				sortBy.add(spec);
+			sortOn.addAll(request.getSortBy());
+		}
+		if (sortOn.isEmpty()) {
+			Property nameField = mapper.getNameField();
+			if (nameField == null) {
+				nameField = mapper.getProperty("name");
+			}
+			if (nameField == null) {
+				nameField = mapper.getProperty("code");
+			}
+			if (nameField != null) {
+				sortOn.add(nameField.getName());
 			}
 		}
 
-		if (sortBy.size() > 0) {
-			return sortBy;
+		for(String spec : sortOn) {
+			String name = spec;
+			if (name.startsWith("-")) {
+				name = name.substring(1);
+			} else {
+				desc = false;
+			}
+			Property property = mapper.getProperty(name);
+			if (property == null || property.isPrimary()) {
+				// dotted field or primary key
+				sortBy.add(spec);
+				continue;
+			}
+			if (property.isReference()) {
+				// use name field to sort many-to-one column
+				Mapper m = Mapper.of(property.getTarget());
+				Property p = m.getNameField();
+				if (p != null) {
+					spec = spec + "." + p.getName();
+				}
+			}
+			if (!property.isUnique()) {
+				unique = false;
+			}
+			sortBy.add(spec);
 		}
 
-		if (mapper.getNameField() != null) {
-			sortBy.add(mapper.getNameField().getName());
-			return sortBy;
-		}
-
-		if (mapper.getProperty("code") != null) {
-			sortBy.add("code");
-			return sortBy;
+		if (!unique && (!sortBy.contains("id") || !sortBy.contains("-id"))) {
+			sortBy.add(desc ? "-id" : "id");
 		}
 
 		return sortBy;
@@ -256,13 +282,8 @@ public class Resource<T extends Model> {
 		} else if (filter != null) {
 			query = filter.build(model);
 		}
-		
-		List<String> sortBy = getSortBy(request);
 
-		if (!sortBy.contains("id") || !sortBy.contains("-id")) {
-			sortBy.add("id");
-		}
-		for(String spec : sortBy) {
+		for(String spec : getSortBy(request)) {
 			query = query.order(spec);
 		}
 
@@ -366,13 +387,12 @@ public class Resource<T extends Model> {
 		for (Object item : q.getResultList()) {
 			counts.put(((Map)item).get("id"), ((Map)item).get("count"));
 		}
-		
+
 		for (Object item : result) {
 			((Map) item).put("_children", counts.get(((Map) item).get("id")));
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void export(Request request, Writer writer) throws IOException {
 		security.get().check(JpaSecurity.CAN_READ, model);
 		LOG.debug("Exporting '{}' with {}", model.getName(), request.getData());
@@ -400,9 +420,9 @@ public class Resource<T extends Model> {
 				name = field;
 			}
 
-			if (title == null) {
+			if (isBlank(title)) {
 				title = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, prop.getName());
-				title = humanize(title);
+				title = Inflector.getInstance().humanize(title);
 			}
 
 			if (prop.isReference()) {
@@ -411,20 +431,15 @@ public class Resource<T extends Model> {
 					continue;
 				}
 				name = name + '.' + prop.getName();
-			} else if(prop.getSelection() != null && !"".equals(prop.getSelection().trim())) {
-				javax.persistence.Query q = JPA.em().createQuery("SELECT new List(self.value, self.title) FROM MetaSelectItem self "
-						+ "JOIN self.select metaSelect "
-						+ "WHERE metaSelect.name = ?1");
-				q.setParameter(1, prop.getSelection());
-
-				List<List<?>> result = q.getResultList();
-				if (result == null || result.isEmpty()) {
+			} else if(!isBlank(prop.getSelection())) {
+				List<Selection.Option> options = MetaStore.getSelectionList(prop.getSelection());
+				if (options == null || options.isEmpty()) {
 					continue;
 				}
 
 				Map<String, String> map = Maps.newHashMap();
-				for (List<?> object : result) {
-					map.put(object.get(0).toString(), object.get(1).toString());
+				for (Selection.Option option : options) {
+					map.put(option.getValue(), option.getLocalizedTitle());
 				}
 				selection.put(header.size(), map);
 			}
@@ -473,14 +488,6 @@ public class Resource<T extends Model> {
 		if (value == null) return "";
 		if (value.indexOf('"') > -1) value = value.replaceAll("\"", "\"\"");
 		return '"' + value + '"';
-	}
-
-	private String humanize(String value) {
-		if (value.endsWith("_id")) value = value.substring(0, value.length() - 3);
-		if (value.endsWith("_set")) value = value.substring(0, value.length() - 5);
-		if (value.endsWith("_list")) value = value.substring(0, value.length() - 6);
-		return value.substring(0, 1).toUpperCase() +
-			   value.substring(1).replaceAll("_+", " ");
 	}
 
 	public Response read(long id) {
@@ -532,6 +539,22 @@ public class Resource<T extends Model> {
 				}
 				values.put(name, value);
 			}
+		}
+
+		// special case for User/Group objects
+		if (values.get("homeAction") != null) {
+			MetaAction act = JpaRepository.of(MetaAction.class).all()
+					.filter("self.name = ?", values.get("homeAction"))
+					.fetchOne();
+			if (act != null) {
+				values.put("__actionSelect", toMapCompact(act));
+			}
+		}
+
+		// if need to fetch messages
+		if (request.getHasMessages() == Boolean.TRUE) {
+			MailMessageRepository messages = Beans.get(MailMessageRepository.class);
+			values.putAll(messages.details(entity));
 		}
 
 		data.add(values);
@@ -589,7 +612,7 @@ public class Resource<T extends Model> {
 			}
 
 			data.add(bean);
-			
+
 			// if it's a translation object, invalidate cache
 			if (bean instanceof MetaTranslation) {
 				I18nBundle.invalidate();
@@ -765,7 +788,7 @@ public class Resource<T extends Model> {
 
 		Mapper mapper = Mapper.of(model);
 		Map<String, Object> data = request.getData();
-		
+
 		Property property = null;
 		try {
 			property = mapper.getProperty(request.getFields().get(0));

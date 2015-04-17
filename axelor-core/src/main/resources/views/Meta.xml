@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_3.1.xsd">
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
   <selection name="view.type.selection">
     <option value="grid">Grid</option>
@@ -105,6 +105,7 @@
     <field name="type"/>
     <field name="model" />
     <field name="module"/>
+    <field name="priority" />
   </grid>
 
   <form title="Action" name="meta-action-form" model="com.axelor.meta.db.MetaAction"
@@ -114,6 +115,8 @@
       <field name="type" readonlyIf="id"/>
       <field name="model"/>
       <field name="module"/>
+      <field name="priority"/>
+      <field name="home" />
     </panel>
     <panel title="Schema">
       <field name="xml" showTitle="false" widget="CodeEditor" height="500" x-code-syntax="xml" colSpan="12"/>
@@ -129,6 +132,8 @@
     <field name="top"/>
     <field name="left"/>
     <field name="mobile"/>
+    <field name="hidden"/>
+    <field name="sequence"/>
     <field name="priority"/>
   </grid>
 
@@ -140,11 +145,13 @@
       <field name="icon"/>
       <field name="action"/>
       <field name="module"/>
+      <field name="order"/>
       <field name="priority"/>
       <panel itemSpan="4">
         <field name="top"/>
         <field name="left"/>
         <field name="mobile"/>
+        <field name="hidden"/>
       </panel>
     </panel>
     <panel-related field="groups" />
@@ -157,6 +164,9 @@
     <field name="category"/>
     <field name="action"/>
     <field name="module"/>
+    <field name="hidden"/>
+    <field name="order"/>
+    <field name="priority"/>
   </grid>
 
   <form title="Action Menu" name="meta-action-menu-form" model="com.axelor.meta.db.MetaActionMenu">
@@ -167,6 +177,9 @@
       <field name="category"/>
       <field name="action"/>
       <field name="module"/>
+      <field name="hidden"/>
+      <field name="sequence"/>
+      <field name="priority"/>
     </panel>
   </form>
 
@@ -185,7 +198,9 @@
     <panel-related field="items" editable="true" orderBy="order">
       <field name="title"/>
       <field name="value"/>
+      <field name="icon"/>
       <field name="data"/>
+      <field name="hidden" />
       <field name="order" width="100"/>
     </panel-related>
   </form>
@@ -194,7 +209,9 @@
     <panel title="Overview">
       <field name="title" />
       <field name="value" />
+      <field name="icon" />
       <field name="data" />
+      <field name="hidden" />
       <field name="order" help="Sequence order" width="100" />
     </panel>
   </form>

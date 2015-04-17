@@ -58,6 +58,7 @@ public final class AppInfo {
 			Property nameField = Mapper.of(User.class).getNameField();
 			Object nameValue = nameField.get(user);
 
+			map.put("user.id", user.getId());
 			map.put("user.name", nameValue);
 			map.put("user.login", user.getCode());
 			map.put("user.nameField", nameField.getName());
@@ -69,6 +70,10 @@ public final class AppInfo {
 			}
 			map.put("user.lang", user.getLanguage());
 			map.put("user.action", user.getHomeAction());
+
+			if (user.getHomeAction() == null) {
+				map.put("user.action", group.getHomeAction());
+			}
 		} catch (Exception e){
 		}
 

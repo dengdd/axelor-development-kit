@@ -187,7 +187,8 @@
 		function findFields(view, res) {
 			var result = res || {
 				fields: [],
-				related: {}
+				related: {},
+				hasMessages: false
 			};
 			var items = result.fields;
 			var fields = view.items || view.pages;
@@ -216,6 +217,9 @@
 
 			_.each(fields, function(item) {
 				if (item.editor) acceptEditor(item);
+				if (item.type === 'panel-mail') {
+					result.hasMessages = true;
+				}
 				if (item.type === 'panel-related') {
 					items.push(item.name);
 				} else if (item.items || item.pages) {
@@ -252,7 +256,7 @@
 			viewCache.put(key, angular.copy(result));
 		}
 
-		ViewService.prototype.getMetaDef = function(model, view) {
+		ViewService.prototype.getMetaDef = function(model, view, context) {
 
 			var self = this,
 				hasItems = _.isArray(view.items),
@@ -284,6 +288,7 @@
 				var key = _.flatten([model, data.view.type, data.view.name, fields]).join();
 
 				data.related = fields_data.related;
+				data.hasMessages = fields_data.hasMessages;
 
 				if (!_.isEmpty(data.fields)) {
 					viewSet(key, data);
@@ -313,6 +318,7 @@
 					result.view = data.view || view;
 					result = process(result);
 					result.related = fields_data.related;
+					result.hasMessages = fields_data.hasMessages;
 
 					viewSet(key, result);
 
@@ -337,12 +343,12 @@
 				return loadFields({view: view});
 			};
 
-			$http.get('ws/meta/view', {
-				cache: true,
-				params: {
-					model: model,
+			$http.post('ws/meta/view', {
+				model: model,
+				data: {
 					type: view.type,
-					name: view.name
+					name: view.name,
+					context: context
 				}
 			}).then(function(response) {
 				var res = response.data,

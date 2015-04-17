@@ -17,7 +17,11 @@
  */
 package com.axelor.script;
 
+import static com.axelor.common.StringUtils.isBlank;
+
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.script.SimpleBindings;
@@ -26,9 +30,11 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
+import com.axelor.app.AppSettings;
 import com.axelor.auth.AuthUtils;
 import com.axelor.db.JPA;
 import com.axelor.db.Model;
+import com.axelor.inject.Beans;
 import com.axelor.rpc.Context;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
@@ -50,13 +56,16 @@ public class ScriptBindings extends SimpleBindings {
 			"__parent__",
 			"__date__",
 			"__time__",
-			"__datetime__"
+			"__datetime__",
+			"__config__"
 			);
 
 	private Map<String, Object> variables;
+	private Map<String, Object> configContext;
 
 	public ScriptBindings(Map<String, Object> variables) {
 		this.variables = this.tryContext(variables);
+		this.configContext = this.configContext();
 	}
 	
 	private Map<String, Object> tryContext(Map<String, Object> variables) {
@@ -91,6 +100,8 @@ public class ScriptBindings extends SimpleBindings {
 			return new LocalDateTime();
 		case "__datetime__":
 			return new DateTime();
+		case "__config__":
+			return configContext;
 		case "__user__":
 			return AuthUtils.getUser();
 		case "__self__":
@@ -113,17 +124,15 @@ public class ScriptBindings extends SimpleBindings {
 
 	@Override
 	public boolean containsKey(Object key) {
-		if (META_VARS.contains(key) || super.containsKey(key)) {
-			return true;
-		}
-		return variables.containsKey(key);
+		return META_VARS.contains(key) || super.containsKey(key)
+				|| variables.containsKey(key);
 	}
 
 	@Override
 	public Set<String> keySet() {
 		Set<String> keys = Sets.newHashSet(super.keySet());
-		keys.addAll(META_VARS);
 		keys.addAll(variables.keySet());
+		keys.addAll(META_VARS);
 		return keys;
 	}
 
@@ -171,5 +180,90 @@ public class ScriptBindings extends SimpleBindings {
 			}
 		}
 		variables.putAll(values);
+	}
+
+	private Map<String, Object> configContext() {
+
+		final Properties properties = AppSettings.get().getProperties();
+		final Map<String, Object> vars = new HashMap<>();
+
+		for (final Object item : properties.keySet()) {
+
+			final String name = item.toString();
+			final String expr = properties.getProperty(name);
+
+			if (!name.startsWith("context.") || isBlank(expr)) {
+				continue;
+			}
+
+			final String key = name.substring(8);
+			final String[] parts = expr.split("\\:", 2);
+
+			Class<?> klass = null;
+
+			Object invalid = new Object();
+			Object value = invalid;
+
+			try {
+				klass = Class.forName(parts[0]);
+			} catch (ClassNotFoundException e) {
+			}
+
+			if (klass == null) {
+				vars.put(key, adapt(expr));
+				continue;
+			}
+
+			try {
+				value = klass.getField(parts[1]).get(null);
+			} catch (Exception e) {
+			}
+			try {
+				value = klass.getMethod(parts[1]).invoke(null);
+			} catch (Exception e) {
+			}
+
+			if (value != invalid) {
+				vars.put(key, value);
+				continue;
+			}
+
+			final Object instance = Beans.get(klass);
+
+			if (parts.length == 1) {
+				vars.put(key, instance);
+				continue;
+			}
+
+			try {
+				value = klass.getMethod(parts[1]).invoke(instance);
+			} catch (Exception e) {
+			}
+
+			if (value == invalid) {
+				throw new RuntimeException("Invalid configuration: " + name + " = " + expr);
+			}
+
+			vars.put(key, value);
+		}
+
+		return vars;
+	}
+
+	private Object adapt(String value) {
+		if (isBlank(value)) {
+			return null;
+		}
+		if ("true".equals(value.toLowerCase())) {
+			return true;
+		}
+		if ("false".equals(value.toLowerCase())) {
+			return false;
+		}
+		try {
+			return Integer.parseInt(value);
+		} catch (Exception e) {
+		}
+		return value;
 	}
 }

@@ -20,6 +20,7 @@ package com.axelor.tools.x2j.pojo
 import groovy.util.slurpersupport.NodeChild
 
 import com.axelor.common.Inflector
+import com.axelor.tools.x2j.PojoHelper;
 import com.axelor.tools.x2j.Utils
 
 class Property {
@@ -62,6 +63,10 @@ class Property {
 
 		if (!name) {
 			throw new IllegalArgumentException("Property name not given.")
+		}
+		
+		if ((!attrs['column'] && PojoHelper.isReservedWords(name)) || PojoHelper.isReservedWords(attrs['column'])) {
+			attrs['column'] = "`" + name + "`"
 		}
 	}
 

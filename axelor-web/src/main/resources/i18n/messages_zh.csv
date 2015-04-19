@@ -181,7 +181,7 @@ webapp/partials/system.html:63
 webapp/partials/views/calendar.html:11
 webapp/partials/views/trail.html:10"
 "Remember me","记住我",,"webapp/login.jsp:25"
-"Remove","Supprimer",,"webapp/js/form/form.relational.multiple.js:575
+"Remove","删除",,"webapp/js/form/form.relational.multiple.js:575
 webapp/js/view/view.popup.js:729"
 "Sa","六",,"webapp/js/form/form.input.datetime.js:61"
 "Sat","周六",,"webapp/js/form/form.input.datetime.js:60"

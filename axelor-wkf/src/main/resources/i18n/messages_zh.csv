@@ -1,0 +1,136 @@
+"key","message","comment","context"
+"AND","且",,"resources/views/Node.xml:18"
+"Account","账户",,"resources/domains/Workflow.xml:71"
+"Action","操作",,"resources/domains/Workflow.xml:61"
+"Active","活动",,"resources/domains/Workflow.xml:10"
+"Activities","活动",,"resources/views/Menu.xml:45
+resources/views/Menu.xml:47
+resources/views/Node.xml:88"
+"Activity","活动",,"resources/views/Node.xml:93"
+"BPMN","BPMN",,"resources/domains/Workflow.xml:17
+resources/views/Workflow.xml:36"
+"Condition","条件",,"resources/domains/Workflow.xml:12
+resources/domains/Workflow.xml:52"
+"Configurations","配置",,"resources/views/Menu.xml:26"
+"Counter","计数器",,"resources/domains/Workflow.xml:34
+resources/views/Instance.xml:33
+resources/views/Instance.xml:58"
+"Counters","计数器",,"resources/domains/Workflow.xml:28
+resources/views/Instance.xml:53"
+"Description","描述",,"resources/domains/Workflow.xml:16
+resources/domains/Workflow.xml:47
+resources/domains/Workflow.xml:60
+resources/views/Workflow.xml:112
+resources/views/Workflow.xml:33
+resources/views/Workflow.xml:66
+resources/views/Workflow.xml:89"
+"Details","明细",,"resources/views/Instance.xml:24"
+"Diagram","图表",,"resources/views/Instance.xml:21"
+"Editor","编辑器",,"resources/views/Workflow.xml:18"
+"End event","结束事件",,"resources/views/Node.xml:10
+resources/views/Node.xml:78"
+"End events","结束事件",,"resources/views/Menu.xml:53
+resources/views/Menu.xml:55
+resources/views/Node.xml:74"
+"End transitions","结束转换",,"resources/domains/Workflow.xml:63"
+"Exclusive gateway","排他网关",,"resources/views/Node.xml:124"
+"Exclusive gateways","排他网关",,"resources/views/Menu.xml:101
+resources/views/Menu.xml:99
+resources/views/Node.xml:120"
+"Executed transitions","执行转换",,"resources/domains/Workflow.xml:26"
+"Gateway","网关",,"resources/views/Node.xml:11"
+"Gateways","网关",,"resources/views/Menu.xml:80"
+"Histories","历史",,"resources/domains/Workflow.xml:27
+resources/views/Instance.xml:39"
+"History","历史",,"resources/views/Instance.xml:28
+resources/views/Instance.xml:45"
+"Import","导入",,"resources/views/Workflow.xml:20"
+"Inclusive gateway","包容网关",,"resources/views/Node.xml:109"
+"Inclusive gateways","包容网关",,"resources/views/Menu.xml:83
+resources/views/Menu.xml:85
+resources/views/Node.xml:105"
+"Instance","实例",,"resources/domains/Workflow.xml:32
+resources/domains/Workflow.xml:39
+resources/views/Instance.xml:14"
+"Instances","实例",,"resources/views/Instance.xml:5
+resources/views/Menu.xml:18
+resources/views/Menu.xml:20
+resources/views/Workflow.xml:19"
+"Max node counter","最大节点数",,"resources/domains/Workflow.xml:14"
+"Message","消息",,"resources/views/Node.xml:12"
+"Message event","消息事件",,"resources/views/Node.xml:179"
+"Message events","消息事件",,"resources/views/Menu.xml:72
+resources/views/Menu.xml:74
+resources/views/Node.xml:171"
+"Meta model","元模型",,"resources/views/Instance.xml:7"
+"Model","模型",,"resources/domains/Workflow.xml:11
+resources/views/Instance.xml:17"
+"Model Id","模型ID",,"resources/domains/Workflow.xml:23"
+"Name","名称",,"resources/domains/Workflow.xml:44
+resources/domains/Workflow.xml:57
+resources/domains/Workflow.xml:9"
+"Next node","下一个节点",,"resources/domains/Workflow.xml:51"
+"Node","节点",,"resources/domains/Workflow.xml:13
+resources/domains/Workflow.xml:33
+resources/views/Node.xml:31"
+"Node Task","节点任务",,"resources/views/Node.xml:9"
+"Nodes","节点",,"resources/domains/Workflow.xml:25
+resources/views/Node.xml:25"
+"OR","或",,"resources/views/Node.xml:19"
+"Operator","操作员",,"resources/domains/Workflow.xml:84"
+"Other events","其他事件",,"resources/views/Menu.xml:61"
+"Overview","概述",,"resources/views/Instance.xml:15
+resources/views/Workflow.xml:104
+resources/views/Workflow.xml:22
+resources/views/Workflow.xml:57
+resources/views/Workflow.xml:81"
+"Parallel gateway","并行网关",,"resources/views/Node.xml:139"
+"Parallel gateways","并行网关",,"resources/views/Menu.xml:91
+resources/views/Menu.xml:93
+resources/views/Node.xml:135"
+"Persist","持久化",,"resources/domains/Workflow.xml:74"
+"Process","进程",,"resources/views/Instance.xml:71"
+"Ref","引用",,"resources/domains/Workflow.xml:19
+resources/domains/Workflow.xml:46
+resources/domains/Workflow.xml:59"
+"Role","角色",,"resources/domains/Workflow.xml:53"
+"Sequence","序列",,"resources/domains/Workflow.xml:15
+resources/domains/Workflow.xml:48"
+"Signal","信号",,"resources/domains/Workflow.xml:45"
+"Start event","开始事件",,"resources/views/Node.xml:64
+resources/views/Node.xml:8"
+"Start events","开始事件",,"resources/views/Menu.xml:29
+resources/views/Menu.xml:31
+resources/views/Node.xml:60"
+"Start node","开始节点",,"resources/domains/Workflow.xml:50"
+"Start transitions","开始转换",,"resources/domains/Workflow.xml:62"
+"Template","模板",,"resources/domains/Workflow.xml:72"
+"Template Model","模板模型",,"resources/domains/Workflow.xml:73"
+"Time cycle","周期",,"resources/domains/Workflow.xml:80"
+"Time date","日期",,"resources/domains/Workflow.xml:78"
+"Time duration","持续时间",,"resources/domains/Workflow.xml:79"
+"Timer","定时器",,"resources/views/Node.xml:13"
+"Timer event","定时器事件",,"resources/views/Node.xml:157"
+"Timer events","定时器事件",,"resources/views/Menu.xml:64
+resources/views/Menu.xml:66
+resources/views/Node.xml:150"
+"Transition","转换",,"resources/domains/Workflow.xml:40
+resources/views/Workflow.xml:103
+resources/views/Workflow.xml:56
+resources/views/Workflow.xml:80"
+"Transitions","转换",,"resources/views/Menu.xml:37
+resources/views/Menu.xml:39
+resources/views/Workflow.xml:46
+resources/views/Workflow.xml:71
+resources/views/Workflow.xml:94"
+"Type","类型",,"resources/domains/Workflow.xml:58"
+"Wkf Management","流程管理",,"resources/views/Menu.xml:6"
+"Workflow","工作流",,"resources/domains/Workflow.xml:24
+resources/views/Workflow.xml:16"
+"Workflows","工作流",,"resources/views/Menu.xml:11
+resources/views/Menu.xml:9
+resources/views/Workflow.xml:8"
+"XML","XML",,"resources/domains/Workflow.xml:18
+resources/views/Workflow.xml:39"
+"XOR","异或",,"resources/views/Node.xml:20"
+"You have no sufficient rights.","你没有足够的权限。",,"java/com/axelor/wkf/db/repo/TransitionRepository.java:58"

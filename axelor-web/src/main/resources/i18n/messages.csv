@@ -1,5 +1,5 @@
 "key","message","comment","context"
-"({0} items)",,,"webapp/js/widget/widget.slickgrid.js:1988"
+"({0} items)",,,"webapp/js/widget/widget.slickgrid.js:1992"
 "About",,,"webapp/index.jsp:121"
 "Action",,,"webapp/js/form/form.input.static.js:161
 webapp/js/view/view.search.js:563
@@ -149,7 +149,7 @@ webapp/partials/views/grid.html:7"
 "No",,,"webapp/js/lib/dialogs.js:63"
 "No records found.",,,"webapp/js/view/view.chart.js:555
 webapp/js/view/view.search.js:194
-webapp/js/widget/widget.slickgrid.js:724"
+webapp/js/widget/widget.slickgrid.js:728"
 "Nov",,,"webapp/js/form/form.input.datetime.js:48"
 "November",,,"webapp/js/form/form.input.datetime.js:34"
 "Now",,,"webapp/js/form/form.input.datetime.js:66"
@@ -210,7 +210,7 @@ webapp/js/view/view.popup.js:652"
 "Server is not responding.",,,"webapp/partials/login-window.html:14"
 "Share",,,"webapp/js/widget/widget.search.js:1007"
 "Show",,,"webapp/js/form/form.relational.multiple.js:1080
-webapp/js/widget/widget.slickgrid.js:1199"
+webapp/js/widget/widget.slickgrid.js:1203"
 "Show Details",,,"webapp/js/axelor.app.js:392"
 "Show archived",,,"webapp/js/widget/widget.search.js:517"
 "Sort Ascending",,,"webapp/js/widget/widget.slickgrid.js:586"
@@ -227,9 +227,9 @@ webapp/js/view/view.chart.js:559"
 webapp/partials/system.html:4"
 "Th",,,"webapp/js/form/form.input.datetime.js:61"
 "The following fields are invalid:",,,"webapp/js/view/view.form.js:1059
-webapp/js/widget/widget.slickgrid.js:958"
+webapp/js/widget/widget.slickgrid.js:962"
 "The record has been updated or delete by another action.",,,"webapp/js/view/view.form.js:442"
-"There are some invalid rows.",,,"webapp/js/widget/widget.slickgrid.js:988"
+"There are some invalid rows.",,,"webapp/js/widget/widget.slickgrid.js:992"
 "Thu",,,"webapp/js/form/form.input.datetime.js:60"
 "Thursday",,,"webapp/js/form/form.input.datetime.js:56"
 "Today",,,"webapp/partials/views/calendar.html:16"

@@ -223,7 +223,7 @@ webapp/js/view/view.chart.js:559"
 "Success","成功",,"webapp/js/lib/dialogs.js:213"
 "Sun","周日",,"webapp/js/form/form.input.datetime.js:60"
 "Sunday","周日",,"webapp/js/form/form.input.datetime.js:52"
-"System Information","Information système",,"webapp/partials/about.html:45
+"System Information","系统信息",,"webapp/partials/about.html:45
 webapp/partials/system.html:4"
 "Th","四",,"webapp/js/form/form.input.datetime.js:61"
 "The following fields are invalid:","以下字段无效：",,"webapp/js/view/view.form.js:1059

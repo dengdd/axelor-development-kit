@@ -396,3 +396,30 @@
 .inline-editable.editable .slickgrid-editable .slick-row.active .slick-cell-required {
 	background-color: #D2D2FF;
 }
+
+/** add by leo.du 2015-04-11**/
+.slick-cell.binary {
+    text-align: center;
+}
+.slick-cell-img {
+    border: 1px #cfcdcd solid;
+    width: 20px;
+    height:20px;
+    padding: 1px;
+}
+#slick-cell-img-zoomin {
+    z-index: 99999;
+    margin: 0 auto;
+    padding: 1px;
+    background: #ffffff;
+    display: none;
+    position: absolute;
+    vertical-align: middle;
+    text-align: center;
+}
+#slick-cell-img-zoomin img {
+    max-width: 200px;
+    height: auto;
+    border: 1px #cfcdcd solid;
+}
+

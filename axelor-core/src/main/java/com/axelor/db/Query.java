@@ -32,6 +32,7 @@ import javax.persistence.TypedQuery;
 
 import com.axelor.db.mapper.Mapper;
 import com.axelor.db.mapper.Property;
+import com.axelor.db.mapper.PropertyType;
 import com.axelor.rpc.Resource;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -66,7 +67,7 @@ public class Query<T extends Model> {
 	private boolean cacheable;
 
 	private FlushModeType flushMode = FlushModeType.AUTO;
-
+	
 	private static final String NAME_PATTERN = "((?:[a-zA-Z_]\\w+)(?:(?:\\[\\])?\\.\\w+)*)";
 
 	private static final Pattern orderPattern = Pattern.compile(
@@ -566,12 +567,40 @@ public class Query<T extends Model> {
 
 			return q.getResultList();
 		}
-
+		
 		@SuppressWarnings("all")
 		public List<Map> fetch(int limit, int offset) {
+		    
+		    List<List> data = values(limit, offset);
+		    List<Map> result = Lists.newArrayList();
+		    
+		    for(List item : data) {
+		        Map<String, Object> map = Maps.newHashMap();
+		        for(int i = 0 ; i < names.size() ; i++) {
+		            Object value = item.get(i);
+		            if (value instanceof Model) {
+		                value = Resource.toMapCompact(value);
+		            }
+		            map.put(names.get(i), value);
+		        }
+		        if (collections.size() > 0) {
+		            map.putAll(this.fetchCollections(item.get(0)));
+		        }
+		        result.add(map);
+		    }
+		    
+		    return result;
+		}
 
+		@SuppressWarnings("all")
+		public List<Map> fetch(Mapper mapper, int limit, int offset) {
 			List<List> data = values(limit, offset);
 			List<Map> result = Lists.newArrayList();
+			
+			Map<String, Property> typeMap = Maps.newHashMap();
+			for (final Property prop : mapper.getProperties()) {
+			    typeMap.put(prop.getName(), prop);
+			}
 
 			for(List item : data) {
 				Map<String, Object> map = Maps.newHashMap();
@@ -579,6 +608,10 @@ public class Query<T extends Model> {
 					Object value = item.get(i);
 					if (value instanceof Model) {
 						value = Resource.toMapCompact(value);
+					} 
+					Property prop = typeMap.get(names.get(i));
+					if (isBinaryImage(prop, names.get(i), value)) {
+		                value = new String((byte[]) value);
 					}
 					map.put(names.get(i), value);
 				}
@@ -590,6 +623,11 @@ public class Query<T extends Model> {
 
 			return result;
 		}
+		
+        private boolean isBinaryImage(Property prop, String name, Object value) {
+            return null != prop && prop.isImage() && prop.getType() == PropertyType.BINARY
+                    && name.toLowerCase().matches(".*(image|photo|picture).*") && byte[].class.isInstance(value);
+        }
 
 		@SuppressWarnings("all")
 		private Map<String, List> fetchCollections(Object id) {
@@ -721,6 +759,11 @@ public class Query<T extends Model> {
 
 					if (i == path.length - 2) {
 						property = currentMapper.getProperty(variable);
+						if (property == null) {
+							throw new IllegalArgumentException(
+									String.format("No such field '%s' in object '%s'",
+											variable, currentMapper.getBeanClass().getName()));
+						}
 						if (property != null && property.getTarget() != null) {
 							joinOn = prefix + "." + variable;
 							prefix = prefix + "_" + variable;

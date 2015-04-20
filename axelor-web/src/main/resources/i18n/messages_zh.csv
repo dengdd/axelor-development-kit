@@ -1,0 +1,286 @@
+"key","message","comment","context"
+"({0} items)","({0} 条记录)",,"webapp/js/widget/widget.slickgrid.js:1992"
+"About","关于",,"webapp/index.jsp:121"
+"Action","操作",,"webapp/js/form/form.input.static.js:161
+webapp/js/view/view.search.js:563
+webapp/js/view/view.search.js:772"
+"Action Category","操作分类",,"webapp/js/view/view.search.js:547
+webapp/js/view/view.search.js:756"
+"Action Sub-Category","操作子类",,"webapp/js/view/view.search.js:555
+webapp/js/view/view.search.js:764"
+"Active Users","激活用户",,"webapp/partials/system.html:36"
+"Add","添加",,"webapp/js/form/form.relational.nested.js:174"
+"Add Field","添加字段",,"webapp/js/widget/widget.update.js:393"
+"Add filter","添加",,"webapp/js/widget/widget.search.js:522"
+"Advanced Search","高级搜索",,"webapp/js/widget/widget.search.js:978"
+"Alert","警告",,"webapp/js/lib/dialogs.js:206"
+"All Day","全天",,"webapp/js/view/view.calendar.js:446"
+"Apply","应用",,"webapp/js/widget/widget.search.js:528"
+"Apr","四月",,"webapp/js/form/form.input.datetime.js:41"
+"April","四月",,"webapp/js/form/form.input.datetime.js:27"
+"Aug","八月",,"webapp/js/form/form.input.datetime.js:45"
+"August","八月",,"webapp/js/form/form.input.datetime.js:31"
+"Back","返回",,"webapp/js/form/form.relational.nested.js:172
+webapp/partials/views/form.html:18
+webapp/partials/views/form.html:19"
+"Cancel","取消",,"webapp/js/form/form.relational.nested.js:175
+webapp/js/lib/dialogs.js:63
+webapp/js/widget/widget.update.js:432
+webapp/partials/views/form.html:15
+webapp/partials/views/form.html:16
+webapp/partials/views/trail.html:7"
+"Clear","清除",,"webapp/js/form/form.relational.nested.js:348
+webapp/js/view/view.search.js:582
+webapp/js/widget/widget.search.js:524
+webapp/js/widget/widget.update.js:395"
+"Close","关闭",,"webapp/js/axelor.app.js:400
+webapp/js/form/form.relational.nested.js:350
+webapp/js/widget/widget.dialog.js:32
+webapp/partials/about.html:51
+webapp/partials/nav-tabs.html:23
+webapp/partials/preferences.html:16
+webapp/partials/system.html:64"
+"Close All","关闭所有",,"webapp/partials/nav-tabs.html:25"
+"Close Others","关闭其他",,"webapp/partials/nav-tabs.html:24"
+"Concurrent updates error.","并发更新错误。",,"webapp/js/axelor.app.js:453"
+"Create","创建",,"webapp/js/view/view.popup.js:667"
+"Create ""{0}"" and add...","创建 \""{0}\"" 并添加...",,"webapp/js/form/form.relational.multiple.js:698"
+"Create ""{0}"" and select...","创建 \""{0}\"" 并选择...",,"webapp/js/form/form.relational.single.js:321"
+"Create ""{0}""...","创建 \""{0}\""...",,"webapp/js/form/form.relational.multiple.js:702
+webapp/js/form/form.relational.single.js:325"
+"Create new","新建",,"webapp/partials/views/trail.html:6"
+"Create...","创建...",,"webapp/js/form/form.relational.multiple.js:714
+webapp/js/form/form.relational.single.js:332"
+"Created By:","创建人：",,"webapp/js/view/view.form.js:705"
+"Created On:","创建时间：",,"webapp/js/view/view.form.js:701"
+"Current changes will be lost.","当前修改将丢失。",,"webapp/js/axelor.nav.js:439"
+"Current changes will be lost. Do you really want to proceed?","当前修改将丢失。您确定要继续操作吗？",,"webapp/js/view/view.form.js:547"
+"Day","日",,"webapp/partials/views/calendar.html:8"
+"Dec","十二月",,"webapp/js/form/form.input.datetime.js:49"
+"December","十二月",,"webapp/js/form/form.input.datetime.js:35"
+"Delete","删除",,"webapp/js/view/view.calendar.js:489
+webapp/js/view/view.form.js:730
+webapp/js/widget/widget.search.js:1012
+webapp/partials/views/grid.html:16
+webapp/partials/views/grid.html:17"
+"Do you really want to delete the selected record(s)?","您确定要删除选中的记录吗？",,"webapp/js/form/form.relational.multiple.js:200
+webapp/js/view/view.grid.js:403
+webapp/js/view/view.popup.js:358"
+"Do you really want to delete the selected record?","您确定要删除选中的记录吗？",,"webapp/js/view/view.form.js:563"
+"Do you really want to update all {0} record(s)?","您确定要更新这{0}条记录吗？",,"webapp/js/widget/widget.update.js:317"
+"Domain","域",,"webapp/js/form/form.input.static.js:167"
+"Done","完成",,"webapp/js/form/form.input.datetime.js:67"
+"Download","下载",,"webapp/js/view/view.popup.js:728"
+"Duplicate","复制",,"webapp/js/view/view.form.js:738"
+"Edit","编辑",,"webapp/js/form/form.relational.multiple.js:573
+webapp/js/form/form.relational.single.js:210
+webapp/partials/views/form.html:10
+webapp/partials/views/form.html:9
+webapp/partials/views/grid.html:10
+webapp/partials/views/grid.html:9"
+"Edit event","编辑事件",,"webapp/js/view/view.calendar.js:502"
+"Error","错误",,"webapp/js/axelor.app.js:378
+webapp/js/lib/dialogs.js:221
+webapp/js/lib/dialogs.js:41"
+"Expanded","展开",,"webapp/js/view/view.chart.js:561"
+"Export","导出",,"webapp/js/widget/widget.search.js:526"
+"Export in progress ...","正在导出 ...",,"webapp/js/view/view.grid.js:610"
+"Failed!","失败",,"webapp/partials/login-window.html:11"
+"Feb","二月",,"webapp/js/form/form.input.datetime.js:39"
+"February","二月",,"webapp/js/form/form.input.datetime.js:25"
+"Field Name","字段名",,"webapp/js/form/form.input.static.js:206"
+"Field Type","字段类型",,"webapp/js/form/form.input.static.js:207"
+"Filter","过滤器",,"webapp/js/form/form.input.static.js:214"
+"Filters","过滤器",,"webapp/js/widget/widget.search.js:982"
+"Fr","五",,"webapp/js/form/form.input.datetime.js:61"
+"Free Memory","释放内存",,"webapp/partials/system.html:30"
+"Fri","周五",,"webapp/js/form/form.input.datetime.js:60"
+"Friday","周五",,"webapp/js/form/form.input.datetime.js:57"
+"Go","开始",,"webapp/js/view/view.search.js:599
+webapp/js/view/view.search.js:795"
+"Group by","分组",,"webapp/js/widget/widget.slickgrid.js:595"
+"Grouped","分组",,"webapp/js/view/view.chart.js:26"
+"Hide","隐藏",,"webapp/js/widget/widget.slickgrid.js:603"
+"Hour","时",,"webapp/js/form/form.input.datetime.js:63"
+"Information","信息",,"webapp/js/lib/dialogs.js:198
+webapp/js/lib/dialogs.js:28
+webapp/js/lib/dialogs.js:96"
+"Internal Server Error","服务器错误",,"webapp/js/axelor.app.js:445"
+"Invalid use of ""{0}"" action, must be the first action.","使用的操作无效""{0}""，必须是第一个操作。",,"webapp/js/form/form.actions.js:398"
+"Jan","一月",,"webapp/js/form/form.input.datetime.js:38"
+"January","一月",,"webapp/js/form/form.input.datetime.js:24"
+"Java Runtime","Java Runtime",,"webapp/partials/system.html:11"
+"Java Version","Java版本",,"webapp/partials/system.html:13"
+"Jul","七月",,"webapp/js/form/form.input.datetime.js:44"
+"July","七月",,"webapp/js/form/form.input.datetime.js:30"
+"Jun","六月",,"webapp/js/form/form.input.datetime.js:43"
+"June","六月",,"webapp/js/form/form.input.datetime.js:29"
+"Last access time","上次连接时间",,"webapp/partials/system.html:46"
+"Loading","正在加载",,"webapp/js/axelor.app.js:58"
+"Log in","登陆",,"webapp/js/axelor.app.js:348
+webapp/js/axelor.app.js:359
+webapp/login.jsp:26"
+"Log in attempt failed.","登录失败",,"webapp/partials/login-window.html:11"
+"Log in time","登录时间",,"webapp/partials/system.html:45"
+"Log out","退出",,"webapp/index.jsp:123"
+"Log...","日志...",,"webapp/js/view/view.form.js:747"
+"Mar","三月",,"webapp/js/form/form.input.datetime.js:40"
+"March","三月",,"webapp/js/form/form.input.datetime.js:26"
+"Mass Update","批量更新",,"webapp/js/widget/widget.update.js:376
+webapp/partials/views/grid.html:12"
+"Max Memory","最大内存",,"webapp/partials/system.html:26"
+"May","五月",,"webapp/js/form/form.input.datetime.js:28
+webapp/js/form/form.input.datetime.js:42"
+"Memory Information","内存信息",,"webapp/partials/system.html:19"
+"Minute","分",,"webapp/js/form/form.input.datetime.js:64"
+"Mo","一",,"webapp/js/form/form.input.datetime.js:61"
+"Mon","周一",,"webapp/js/form/form.input.datetime.js:60"
+"Monday","周一",,"webapp/js/form/form.input.datetime.js:53"
+"Month","月",,"webapp/partials/views/calendar.html:6"
+"More","更多",,"webapp/js/widget/widget.navmenu.js:209"
+"My Filters","我的过滤器",,"webapp/js/widget/widget.search.js:991"
+"New","新建",,"webapp/js/form/form.relational.multiple.js:574
+webapp/js/form/form.relational.single.js:211
+webapp/partials/views/form.html:6
+webapp/partials/views/form.html:7
+webapp/partials/views/grid.html:6
+webapp/partials/views/grid.html:7"
+"Next","下一个",,"webapp/js/form/form.input.datetime.js:69"
+"No","否",,"webapp/js/lib/dialogs.js:63"
+"No records found.","没有找到记录。",,"webapp/js/view/view.chart.js:555
+webapp/js/view/view.search.js:194
+webapp/js/widget/widget.slickgrid.js:728"
+"Nov","十一月",,"webapp/js/form/form.input.datetime.js:48"
+"November","十一月",,"webapp/js/form/form.input.datetime.js:34"
+"Now","今天",,"webapp/js/form/form.input.datetime.js:66"
+"OK","确定",,"webapp/js/form/form.relational.nested.js:173
+webapp/js/lib/dialogs.js:103
+webapp/js/lib/dialogs.js:62
+webapp/js/widget/widget.dialog.js:42"
+"Object","对象",,"webapp/js/form/form.input.static.js:164
+webapp/js/form/form.input.static.js:205
+webapp/js/view/view.search.js:353"
+"Oct","十月",,"webapp/js/form/form.input.datetime.js:47"
+"October","十月",,"webapp/js/form/form.input.datetime.js:33"
+"Offline!","离线",,"webapp/partials/login-window.html:14"
+"Operating System","操作系统",,"webapp/partials/system.html:9"
+"Orig. Value","原值",,"webapp/js/form/form.input.static.js:249"
+"Password","密码",,"webapp/login.jsp:29
+webapp/partials/login-window.html:6"
+"Please correct the invalid form values.","请修改无效表单的值。",,"webapp/js/form/form.actions.js:307"
+"Please sign in","请登录",,"webapp/login.jsp:24"
+"Please wait...","请稍等...",,"webapp/js/axelor.app.js:203"
+"Preferences","首选项",,"webapp/index.jsp:120"
+"Prev","上一个",,"webapp/js/form/form.input.datetime.js:68"
+"Question","询问",,"webapp/js/lib/dialogs.js:59"
+"Reference","参照",,"webapp/js/form/form.input.static.js:218"
+"Refresh","刷新",,"webapp/js/view/view.form.js:725
+webapp/js/view/view.portal.js:267
+webapp/partials/nav-tabs.html:21
+webapp/partials/system.html:63
+webapp/partials/views/calendar.html:11
+webapp/partials/views/trail.html:10"
+"Remember me","记住我",,"webapp/login.jsp:25"
+"Remove","删除",,"webapp/js/form/form.relational.multiple.js:575
+webapp/js/view/view.popup.js:729"
+"Sa","六",,"webapp/js/form/form.input.datetime.js:61"
+"Sat","周六",,"webapp/js/form/form.input.datetime.js:60"
+"Saturday","周六",,"webapp/js/form/form.input.datetime.js:58"
+"Save","保存",,"webapp/js/widget/widget.search.js:1010
+webapp/partials/preferences.html:15
+webapp/partials/views/form.html:12
+webapp/partials/views/form.html:13
+webapp/partials/views/grid.html:13
+webapp/partials/views/grid.html:14"
+"Save as","另存为",,"webapp/js/widget/widget.search.js:1011"
+"Save filter as","保存过滤器",,"webapp/js/widget/widget.search.js:1005"
+"Search","搜索",,"webapp/js/view/view.search.js:576"
+"Search Objects","查询对象",,"webapp/js/view/view.search.js:533"
+"Search...","搜索...",,"webapp/js/form/form.relational.multiple.js:708
+webapp/js/form/form.relational.single.js:314"
+"Second","秒",,"webapp/js/form/form.input.datetime.js:65"
+"Select","选择",,"webapp/js/form/form.relational.multiple.js:1078
+webapp/js/form/form.relational.multiple.js:1079
+webapp/js/form/form.relational.multiple.js:576
+webapp/js/form/form.relational.nested.js:349
+webapp/js/form/form.relational.single.js:212
+webapp/js/view/view.popup.js:652"
+"Sep","九月",,"webapp/js/form/form.input.datetime.js:46"
+"September","九月",,"webapp/js/form/form.input.datetime.js:32"
+"Server is not responding.","服务器没有响应。",,"webapp/partials/login-window.html:14"
+"Share","共享",,"webapp/js/widget/widget.search.js:1007"
+"Show","显示",,"webapp/js/form/form.relational.multiple.js:1080
+webapp/js/widget/widget.slickgrid.js:1203"
+"Show Details","显示详情",,"webapp/js/axelor.app.js:392"
+"Show archived","显示存档",,"webapp/js/widget/widget.search.js:517"
+"Sort Ascending","升序",,"webapp/js/widget/widget.slickgrid.js:586"
+"Sort Descending","降序",,"webapp/js/widget/widget.slickgrid.js:590"
+"Stack %","堆 %",,"webapp/js/view/view.chart.js:562"
+"Stacked","堆放",,"webapp/js/view/view.chart.js:27
+webapp/js/view/view.chart.js:559"
+"Stream","流",,"webapp/js/view/view.chart.js:560"
+"Su","日",,"webapp/js/form/form.input.datetime.js:61"
+"Success","成功",,"webapp/js/lib/dialogs.js:213"
+"Sun","周日",,"webapp/js/form/form.input.datetime.js:60"
+"Sunday","周日",,"webapp/js/form/form.input.datetime.js:52"
+"System Information","系统信息",,"webapp/partials/about.html:45
+webapp/partials/system.html:4"
+"Th","四",,"webapp/js/form/form.input.datetime.js:61"
+"The following fields are invalid:","以下字段无效：",,"webapp/js/view/view.form.js:1059
+webapp/js/widget/widget.slickgrid.js:962"
+"The record has been updated or delete by another action.","这条记录已被其他操作更新或修改。",,"webapp/js/view/view.form.js:442"
+"There are some invalid rows.","有一些无效的行。",,"webapp/js/widget/widget.slickgrid.js:992"
+"Thu","周四",,"webapp/js/form/form.input.datetime.js:60"
+"Thursday","周四",,"webapp/js/form/form.input.datetime.js:56"
+"Today","今天",,"webapp/partials/views/calendar.html:16"
+"Toggle","切换",,"webapp/js/view/view.portal.js:268"
+"Total Memory","总内存",,"webapp/partials/system.html:24"
+"Tu","二",,"webapp/js/form/form.input.datetime.js:61"
+"Tue","周二",,"webapp/js/form/form.input.datetime.js:60"
+"Tuesday","周二",,"webapp/js/form/form.input.datetime.js:54"
+"Ungroup","取消分组",,"webapp/js/widget/widget.slickgrid.js:598"
+"Unknown","未知",,"webapp/js/view/view.calendar.js:144
+webapp/js/view/view.calendar.js:204"
+"Update","更新",,"webapp/js/widget/widget.update.js:431"
+"Update all","全部更新",,"webapp/js/widget/widget.update.js:434"
+"Updated By:","更新人：",,"webapp/js/view/view.form.js:713"
+"Updated On:","更新时间：",,"webapp/js/view/view.form.js:709"
+"Upload","上传",,"webapp/js/view/view.popup.js:727"
+"Used Memory","内存占用",,"webapp/partials/system.html:28"
+"User","用户",,"webapp/partials/login-window.html:4
+webapp/partials/system.html:44"
+"User name","用户名",,"webapp/login.jsp:28"
+"Validation error","验证错误",,"webapp/js/form/form.actions.js:308"
+"View","视图",,"webapp/js/form/form.input.static.js:170"
+"Warning","警告",,"webapp/js/form/form.actions.js:525
+webapp/js/lib/dialogs.js:34"
+"We","三",,"webapp/js/form/form.input.datetime.js:61"
+"Wed","周三",,"webapp/js/form/form.input.datetime.js:60"
+"Wednesday","周三",,"webapp/js/form/form.input.datetime.js:55"
+"Week","周",,"webapp/partials/views/calendar.html:7"
+"Wk","周",,"webapp/js/form/form.input.datetime.js:62"
+"Would you like to reload the current record?","您想重新加载当前记录吗？",,"webapp/js/view/view.form.js:443"
+"Would you like to remove the filter?","您确定要删除这个过滤器？",,"webapp/js/widget/widget.search.js:733"
+"Yes","是",,"webapp/js/lib/dialogs.js:62"
+"You are not allow to upload a file bigger than","允许上传的文件最大不能超过",,"webapp/js/form/form.input.binary.js:171
+webapp/js/view/view.popup.js:397"
+"and","且",,"webapp/js/widget/widget.search.js:511"
+"and {0} more","还有 {0} 条记录",,"webapp/js/form/form.input.select.js:448"
+"contains","包含",,"webapp/js/widget/widget.search.js:32"
+"doesn't contain","不包含",,"webapp/js/widget/widget.search.js:33"
+"equals","等于",,"webapp/js/widget/widget.search.js:25"
+"greater or equal","大于或等于",,"webapp/js/widget/widget.search.js:27"
+"greater than","大于",,"webapp/js/widget/widget.search.js:29"
+"in range","在...内",,"webapp/js/widget/widget.search.js:35"
+"is false","为假",,"webapp/js/widget/widget.search.js:42"
+"is not null","不为空",,"webapp/js/widget/widget.search.js:39"
+"is null","为空",,"webapp/js/widget/widget.search.js:38"
+"is true","为真",,"webapp/js/widget/widget.search.js:41"
+"less or equal","小于或等于",,"webapp/js/widget/widget.search.js:28"
+"less than","小于",,"webapp/js/widget/widget.search.js:30"
+"not equal","不等于",,"webapp/js/widget/widget.search.js:26"
+"not in range","不在...内",,"webapp/js/widget/widget.search.js:36"
+"or","或",,"webapp/js/widget/widget.search.js:514"
+"{0} of {1}","{0} 至 {1}",,"webapp/js/view/view.form.js:639"
+"{0} to {1} of {2}","{0} 至 {1} 共 {2}",,"webapp/js/view/view.grid.js:353
+webapp/js/view/view.tree.js:417"

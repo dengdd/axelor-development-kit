@@ -286,7 +286,8 @@ public class Resource<T extends Model> {
 			if (request.getFields() != null) {
 				Query<?>.Selector selector = query.cacheable().select(request.getFields().toArray(new String[]{}));
 				LOG.debug("JPQL: {}", selector);
-				data = selector.fetch(limit, offset);
+				Mapper mapper = Mapper.of(model);
+				data = selector.fetch(mapper, limit, offset);
 			} else {
 				LOG.debug("JPQL: {}", query);
 				data = query.cacheable().fetch(limit, offset);

@@ -35,6 +35,30 @@ import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Response;
 
 public class MailController extends JpaSupport {
+	
+	private static final String SQL_INBOX = ""
+			+ "SELECT DISTINCT(m) FROM MailMessage m LEFT JOIN m.flags g "
+			+ "WHERE (m.parent IS NULL) AND "
+			+ "((m.createdBy.id = :uid) OR CONCAT(m.relatedId, m.relatedModel) IN "
+			+ " (SELECT CONCAT(f.relatedId, f.relatedModel) FROM MailFollower f WHERE f.user.id = :uid)) AND "
+			+ "((g IS NULL) OR (g.user.id = :uid AND g.isRead = false)) "
+			+ "ORDER BY m.createdOn ASC";
+
+	private static final String SQL_IMPORTANT = ""
+			+ "SELECT DISTINCT(m) FROM MailMessage m LEFT JOIN m.flags g "
+			+ "WHERE (m.parent IS NULL) AND "
+			+ "((m.createdBy.id = :uid) OR CONCAT(m.relatedId, m.relatedModel) IN "
+			+ " (SELECT CONCAT(f.relatedId, f.relatedModel) FROM MailFollower f WHERE f.user.id = :uid)) AND "
+			+ "((g.user.id = :uid AND g.isStarred = true)) "
+			+ "ORDER BY m.createdOn ASC";
+
+	private static final String SQL_ARCHIVE = ""
+			+ "SELECT DISTINCT(m) FROM MailMessage m LEFT JOIN m.flags g "
+			+ "WHERE (m.parent IS NULL) AND "
+			+ "((m.createdBy.id = :uid) OR CONCAT(m.relatedId, m.relatedModel) IN "
+			+ " (SELECT CONCAT(f.relatedId, f.relatedModel) FROM MailFollower f WHERE f.user.id = :uid)) AND "
+			+ "((g.user.id = :uid AND g.isRead = true)) "
+			+ "ORDER BY m.createdOn ASC";
 
 	@Inject
 	private MailMessageRepository messages;
@@ -46,14 +70,10 @@ public class MailController extends JpaSupport {
 
 	public void inbox(ActionRequest request, ActionResponse response) {
 
-		final List<Object> all = find(true, request.getLimit());
+		final List<Object> all = find(SQL_INBOX, request.getLimit());
 
 		response.setValue("$force", true);
 		response.setValue("$messages", all);
-
-		if (all.isEmpty()) {
-			response.setValue("$emptyTitle", I18n.get("Inbox is empty!"));
-		}
 
 		if (all.isEmpty()) {
 			response.setValue("__emptyTitle", I18n.get("Inbox is empty!"));
@@ -61,29 +81,63 @@ public class MailController extends JpaSupport {
 		}
 	}
 
-	public void archived(ActionRequest request, ActionResponse response) {
+	public void important(ActionRequest request, ActionResponse response) {
 
-		final List<Object> all = find(false, request.getLimit());
+		final List<Object> all = find(SQL_IMPORTANT, request.getLimit());
 
 		response.setValue("$force", true);
 		response.setValue("$messages", all);
 
 		if (all.isEmpty()) {
-			response.setValue("__emptyTitle", I18n.get("There are no archived messages!"));
+			response.setValue("__emptyTitle", I18n.get("No important messages!"));
 			response.setValue("__emptyDesc", I18n.get("Come back later. There are no messages in this folder..."));
 		}
 	}
 
-	private List<MailMessage> findChildren(MailMessage message, int level) {
+	public void archived(ActionRequest request, ActionResponse response) {
+
+		final List<Object> all = find(SQL_ARCHIVE, request.getLimit());
+
+		response.setValue("$force", true);
+		response.setValue("$messages", all);
+
+		if (all.isEmpty()) {
+			response.setValue("__emptyTitle", I18n.get("No archived messages!"));
+			response.setValue("__emptyDesc", I18n.get("Come back later. There are no messages in this folder..."));
+		}
+	}
+
+	private List<MailMessage> findChildren(MailMessage message) {
 		final List<MailMessage> all = new ArrayList<>();
-		all.add(message);
-		if (message.getReplies() == null || level > 2) {
+		if (message.getReplies() == null) {
 			return all;
 		}
 		for (MailMessage msg : message.getReplies()) {
-			all.addAll(findChildren(msg, level + 1));
+			all.add(msg);
+			all.addAll(findChildren(msg));
 		}
 		return all;
+	}
+
+	public void replies(ActionRequest request, ActionResponse response) {
+
+		if (request.getRecords() == null ||
+			request.getRecords().isEmpty()) {
+			return;
+		}
+
+		final MailMessage parent = messages.find((Long) request.getRecords().get(0));
+		final List<MailMessage> found = findChildren(parent);
+		final List<Object> all = new ArrayList<>();
+
+		for (MailMessage message : found) {
+			Map<String, Object> details = messages.details(message);
+			details.put("$thread", true);
+			all.add(details);
+		}
+
+		response.setData(all);
+		response.setStatus(ActionResponse.STATUS_SUCCESS);
 	}
 
 	public long countUnread() {
@@ -105,39 +159,23 @@ public class MailController extends JpaSupport {
 		return 0;
 	}
 
-	public List<Object> find(boolean unread, int limit) {
+	public List<Object> find(String queryString, int limit) {
 
-		final String SQL_INBOX = ""
-				+ "SELECT DISTINCT(m) FROM MailMessage m LEFT JOIN m.flags g "
-				+ "WHERE (m.parent IS NULL) AND "
-				+ "((m.createdBy.id = :uid) OR CONCAT(m.relatedId, m.relatedModel) IN "
-				+ " (SELECT CONCAT(f.relatedId, f.relatedModel) FROM MailFollower f WHERE f.user.id = :uid)) AND "
-				+ "((g IS NULL) OR (g.user.id = :uid AND g.isRead = false)) "
-				+ "ORDER BY m.createdOn ASC";
-
-		final String SQL_ARCHIVE = ""
-				+ "SELECT DISTINCT(m) FROM MailMessage m "
-				+ "WHERE (m.parent IS NULL) AND "
-				+ "((m.createdBy.id = :uid) OR CONCAT(m.relatedId, m.relatedModel) IN "
-				+ " (SELECT CONCAT(f.relatedId, f.relatedModel) FROM MailFollower f WHERE f.user.id = :uid)) "
-				+ "ORDER BY m.createdOn ASC";
-
-		final String queryString = unread ? SQL_INBOX : SQL_ARCHIVE;
 		final TypedQuery<MailMessage> query = getEntityManager().createQuery(queryString, MailMessage.class);
-		final List<MailMessage> found = new ArrayList<>();
 
 		query.setParameter("uid", AuthUtils.getUser().getId());
 		query.setMaxResults(limit);
 
-		for (MailMessage message : query.getResultList()) {
-			found.addAll(findChildren(message, 0));
-		}
-
+		final List<MailMessage> found = query.getResultList();
 		final List<Object> all = new ArrayList<>();
+
 		for (MailMessage message : found) {
 			Map<String, Object> details = messages.details(message);
+			long replies = messages.all().filter("self.root.id = ?", message.getId()).count();
+
 			details.put("subject", details.get("relatedName"));
 			details.put("$thread", true);
+			details.put("$numReplies", replies);
 			all.add(details);
 		}
 

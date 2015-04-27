@@ -471,8 +471,10 @@ public class RestService extends ResourceService {
 	@GET
 	@Path("messagesAll")
 	public Response messagesAll(
-			@QueryParam("inboxOnly") Boolean inboxOnly,
-			@QueryParam("countOnly") Boolean countOnly,
+			@QueryParam("folder") String folder,
+			@QueryParam("parent") Long parentId,
+			@QueryParam("count") Boolean count,
+			@QueryParam("limit") Integer limit,
 			@QueryParam("relatedId") Long relatedId,
 			@QueryParam("relatedModel") String relatedModel) {
 
@@ -505,18 +507,34 @@ public class RestService extends ResourceService {
 		ActionRequest req = new ActionRequest();
 		ActionResponse res = new ActionResponse();
 
-		if (countOnly == Boolean.TRUE) {
+		if (count == Boolean.TRUE) {
 			ctrl.unread(req, res);
 			return res;
 		}
-
-		if (inboxOnly == Boolean.TRUE) {
-			ctrl.inbox(req, res);
+		
+		if (parentId != null) {
+			List<Object> records = new ArrayList<>();
+			records.add(parentId);
+			req.setRecords(records);
+			ctrl.replies(req, res);
 			return res;
 		}
 
-		ctrl.archived(req, res);
-		return res;
+		if (folder == null) {
+			return res;
+		}
+
+		switch (folder) {
+		case "archive":
+			ctrl.archived(req, res);
+			return res;
+		case "important":
+			ctrl.important(req, res);
+			return res;
+		default:
+			ctrl.inbox(req, res);
+			return res;
+		}
 	}
 
 	@GET

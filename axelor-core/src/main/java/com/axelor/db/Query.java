@@ -33,7 +33,6 @@ import javax.persistence.TypedQuery;
 import com.axelor.db.mapper.Mapper;
 import com.axelor.db.mapper.Property;
 import com.axelor.db.mapper.PropertyType;
-import com.axelor.meta.db.MetaFile;
 import com.axelor.rpc.Resource;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -68,7 +67,7 @@ public class Query<T extends Model> {
 	private boolean cacheable;
 
 	private FlushModeType flushMode = FlushModeType.AUTO;
-
+	
 	private static final String NAME_PATTERN = "((?:[a-zA-Z_]\\w+)(?:(?:\\[\\])?\\.\\w+)*)";
 
 	private static final Pattern orderPattern = Pattern.compile(
@@ -313,7 +312,7 @@ public class Query<T extends Model> {
 	public int update(Map<String, Object> values) {
 		final Map<String, Object> params = Maps.newHashMap();
 		final Map<String, Object> namedParams = Maps.newHashMap();
-
+		
 		if (this.namedParams != null) {
 			namedParams.putAll(this.namedParams);
 		}
@@ -568,13 +567,13 @@ public class Query<T extends Model> {
 
 			return q.getResultList();
 		}
-
+		
 		@SuppressWarnings("all")
 		public List<Map> fetch(int limit, int offset) {
-
+		    
 		    List<List> data = values(limit, offset);
 		    List<Map> result = Lists.newArrayList();
-
+		    
 		    for(List item : data) {
 		        Map<String, Object> map = Maps.newHashMap();
 		        for(int i = 0 ; i < names.size() ; i++) {
@@ -589,7 +588,7 @@ public class Query<T extends Model> {
 		        }
 		        result.add(map);
 		    }
-
+		    
 		    return result;
 		}
 
@@ -597,7 +596,7 @@ public class Query<T extends Model> {
 		public List<Map> fetch(Mapper mapper, int limit, int offset) {
 			List<List> data = values(limit, offset);
 			List<Map> result = Lists.newArrayList();
-
+			
 			Map<String, Property> typeMap = Maps.newHashMap();
 			for (final Property prop : mapper.getProperties()) {
 			    typeMap.put(prop.getName(), prop);
@@ -609,14 +608,10 @@ public class Query<T extends Model> {
 					Object value = item.get(i);
 					if (value instanceof Model) {
 						value = Resource.toMapCompact(value);
-					}
+					} 
 					Property prop = typeMap.get(names.get(i));
 					if (isBinaryImage(prop, names.get(i), value)) {
-						value = new String((byte[]) value);
-					} else if (isMetaFileImage(prop, names.get(i), value)) {
-						Map<String, Object> m = (Map<String, Object>) value;
-						value = String.format("ws/rest/com.axelor.meta.db.MetaFile/%d/content/download",
-						        ((Map<String, Object>) value).get("id"));
+		                value = new String((byte[]) value);
 					}
 					map.put(names.get(i), value);
 				}
@@ -628,16 +623,11 @@ public class Query<T extends Model> {
 
 			return result;
 		}
-
-		private boolean isBinaryImage(Property prop, String name, Object value) {
-			return null != prop && prop.isImage() && prop.getType() == PropertyType.BINARY
-			        && name.toLowerCase().matches(".*(image|photo|picture).*") && byte[].class.isInstance(value);
-		}
-
-		private boolean isMetaFileImage(Property prop, String name, Object value) {
-			return null != prop && prop.getJavaType().isAssignableFrom(MetaFile.class)
-			        && name.toLowerCase().matches(".*(image|photo|picture).*");
-		}
+		
+        private boolean isBinaryImage(Property prop, String name, Object value) {
+            return null != prop && prop.isImage() && prop.getType() == PropertyType.BINARY
+                    && name.toLowerCase().matches(".*(image|photo|picture).*") && byte[].class.isInstance(value);
+        }
 
 		@SuppressWarnings("all")
 		private Map<String, List> fetchCollections(Object id) {

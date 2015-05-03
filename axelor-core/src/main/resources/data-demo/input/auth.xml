@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <auth>
 
+  <group code="users" name="Users" />
+  <user code="demo" password="$shiro1$SHA-512$500000$gysclMjgNv7ARBlcQoCLbg==$43ABUI7ZO5+LFQU0QvIo6a9/8GEefK41/+fRidM1HuXfseB6qELJM5u3sKLBG6Ob7rjfX3M7yyexcF+P4ttY5A==" name="Demo User" group="users" />
+
   <permission name="perm.auth.all" object="com.axelor.auth.db.*">
     <can create="true" read="true" write="true" remove="true" export="true"/>
   </permission>

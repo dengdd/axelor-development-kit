@@ -62,8 +62,8 @@ public class AuthModule extends ShiroWebModule {
 
 		this.expose(AuthService.class);
 		this.expose(AuthLdap.class);
-
-		this.bindConstant().annotatedWith(Names.named("app.loginUrl")).to("/login.jsp");
+		
+		this.bindConstant().annotatedWith(Names.named("app.loginUrl")).to(properties.getProperty("application.loginUrl", "/login.jsp"));
 		this.bindRealm().to(AuthRealm.class);
 
 		this.addFilterChain("/public/**", ANON);

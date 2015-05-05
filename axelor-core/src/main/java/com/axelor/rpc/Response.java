@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.axelor.app.AppSettings;
+import com.axelor.common.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.base.Throwables;
@@ -41,15 +43,15 @@ public class Response {
 	public static int STATUS_VALIDATION_ERROR = -4;
 
 	private int status;
-	
+
 	@JsonInclude(Include.NON_DEFAULT)
 	private int offset = -1;
-	
+
 	@JsonInclude(Include.NON_DEFAULT)
 	private long total = -1;
 
 	private Object data;
-	
+
 	private Map<String, String> errors;
 
 	public int getStatus() {
@@ -59,23 +61,23 @@ public class Response {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	public int getOffset() {
 		return offset;
 	}
-	
+
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
-	
+
 	public long getTotal() {
 		return total;
 	}
-	
+
 	public void setTotal(long count) {
 		this.total = count;
 	}
-	
+
 	public Object getData() {
 		return data;
 	}
@@ -83,7 +85,7 @@ public class Response {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
+
 	public Map<String, String> getErrors() {
 		return errors;
 	}
@@ -100,23 +102,27 @@ public class Response {
 		this.errors.put(fieldName, errorMessage);
 		this.setStatus(STATUS_VALIDATION_ERROR);
 	}
-	
+
 	public void setException(Throwable throwable) {
-		
+
 		Throwable cause = Throwables.getRootCause(throwable);
 		if (cause instanceof BatchUpdateException) {
 			cause = ((BatchUpdateException) cause).getNextException();
 		}
-		
-		Map<String, Object> report = Maps.newHashMap();
-		
-		report.put("class", throwable.getClass());
-		report.put("message", cause.getMessage());
-		report.put("string", cause.toString());
-		report.put("stacktrace", Throwables.getStackTraceAsString(throwable));
-		report.put("cause", Throwables.getStackTraceAsString(cause));
-		
-		this.setData(report);
+
+		if ("dev".equals(AppSettings.get().get("application.mode"))) {
+			Map<String, Object> report = Maps.newHashMap();
+
+			report.put("class", throwable.getClass());
+			report.put("message", cause.getMessage());
+			report.put("string", cause.toString());
+			report.put("stacktrace", Throwables.getStackTraceAsString(throwable));
+			report.put("cause", Throwables.getStackTraceAsString(cause));
+
+			this.setData(report);
+		} else {
+			this.setData(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : cause.toString());
+		}
 		this.setStatus(STATUS_FAILURE);
 	}
 

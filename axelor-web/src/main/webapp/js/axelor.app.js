@@ -456,7 +456,7 @@
 				stacktrace = report.stacktrace;
 				cause = report.cause;
 			} else if (_.isString(report)) {
-				stacktrace = report.replace(/.*<body>|<\/body>.*/g, '');
+				message = report.replace(/.*<body>|<\/body>.*/g, '');
 			} else {
 				return; // no error report, so ignore
 			}

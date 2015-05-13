@@ -18,6 +18,8 @@
 package com.axelor.auth;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -33,16 +35,24 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
+import com.axelor.db.Query;
+import com.axelor.meta.db.MetaFilterChain;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 
 public class AuthFilter extends FormAuthenticationFilter {
 
 	@Inject
 	@Named("app.loginUrl")
 	private String loginUrl;
+	
+	@Inject
+	private Injector injector;
 
 	@Override
 	public String getLoginUrl() {
@@ -50,6 +60,22 @@ public class AuthFilter extends FormAuthenticationFilter {
 			return loginUrl;
 		}
 		return super.getLoginUrl();
+	}
+	
+	@Override
+	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+		List<MetaFilterChain> filterChains = Query.of(MetaFilterChain.class).cacheable().order("sortOrder").fetch();
+		if (filterChains != null && !filterChains.isEmpty()) {
+			for (MetaFilterChain chain : filterChains) {
+				if (pathsMatch(chain.getPattern(), request)) {
+					PathMatchingFilter filter = (PathMatchingFilter) injector.getInstance(Key.get(Class.forName(chain.getType())));
+					Method method = filter.getClass().getDeclaredMethod("onPreHandle", ServletRequest.class, ServletResponse.class, Object.class);
+					method.setAccessible(true);
+					return (boolean) method.invoke(filter, request, response, mappedValue);
+				}
+			}
+		}
+		return super.onPreHandle(request, response, mappedValue);
 	}
 
 	@Override

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_3.0.xsd">
+
+  <selection name="filter.chain.type.selection">
+    <option value="org.apache.shiro.web.filter.authc.AnonymousFilter">ANON</option>
+    <option value="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">AUTHC</option>
+    <option value="org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter">AUTHC_BASIC</option>
+    <option value="org.apache.shiro.web.filter.session.NoSessionCreationFilter">NO_SESSION_CREATION</option>
+    <option value="org.apache.shiro.web.filter.authc.LogoutFilter">LOGOUT</option>
+    <option value="org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter">PERMS</option>
+    <option value="org.apache.shiro.web.filter.authz.PortFilter">PORT</option>
+    <option value="org.apache.shiro.web.filter.authz.HttpMethodPermissionFilter">REST</option>
+    <option value="org.apache.shiro.web.filter.authz.RolesAuthorizationFilter">ROLES</option>
+    <option value="org.apache.shiro.web.filter.authz.SslFilter">SSL</option>
+    <option value="org.apache.shiro.web.filter.authc.UserFilter">USER</option>
+  </selection>
+    
+  <grid name="meta-filter-chain-grid" title="Filter Chains" model="com.axelor.meta.db.MetaFilterChain" editable="true" orderBy="sortOrder">
+    <field name="pattern" />
+    <field name="type" selection="filter.chain.type.selection"/>
+    <field name="config" />
+  </grid>
+
+  <form name="meta-filter-chain-form" title="Filter Chain" model="com.axelor.meta.db.MetaFilterChain">
+    <panel title="Overview">
+      <field name="pattern" />
+      <field name="type" selection="filter.chain.type.selection"/>
+      <field name="config" />
+      <field name="sortOrder" />
+    </panel>
+  </form>
+  
+
+</object-views>

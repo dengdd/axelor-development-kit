@@ -9,6 +9,7 @@
   <menuitem name="menu-view-management" title="View Management" parent="menu-admin"/>
   <menuitem name="menu-module-management" title="Module Management" parent="menu-admin" />
   <menuitem name="menu-job-management" title="Job Management" parent="menu-admin" />
+  <menuitem name="menu-filter-chain-management" title="Filter Chain Management" parent="menu-admin" />
 
   <menuitem name="menu-auth-users" parent="menu-auth" title="Users"
     action="action-auth-users" />
@@ -142,6 +143,15 @@
   <action-view name="meta.jobs" title="All Schedules" model="com.axelor.meta.db.MetaSchedule">
     <view type="grid" name="meta-schedule-grid"/>
     <view type="form" name="meta-schedule-form"/>
+  </action-view>
+  
+  <menuitem name="menu-filter-chain-all" parent="menu-filter-chain-management"
+    title="All Filter Chains"
+    action="meta.filter.chains" />
+  
+  <action-view name="meta.filter.chains" title="All Filter Chains" model="com.axelor.meta.db.MetaFilterChain">
+    <view type="grid" name="meta-filter-chain-grid"/>
+    <view type="form" name="meta-filter-chain-form"/>
   </action-view>
   
 </object-views>

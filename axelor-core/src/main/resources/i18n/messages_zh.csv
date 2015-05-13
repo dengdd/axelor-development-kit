@@ -1,36 +1,42 @@
 "key","message","comment","context"
+"ANON",,,"resources/views/FilterChains.xml:7"
+"AUTHC",,,"resources/views/FilterChains.xml:8"
+"AUTHC_BASIC",,,"resources/views/FilterChains.xml:9"
 "Action","操作",,"resources/domains/Meta.xml:65
 resources/domains/Meta.xml:83
 resources/views/Meta.xml:111
 resources/views/User.xml:29"
 "Action Menu","操作菜单",,"resources/views/Meta.xml:162"
-"Action Menus","操作菜单",,"resources/views/Menu.xml:112
-resources/views/Menu.xml:114
+"Action Menus","操作菜单",,"resources/views/Menu.xml:113
+resources/views/Menu.xml:115
 resources/views/Meta.xml:153"
 "Action name can't be changed.","操作名称不能更改。",,"java/com/axelor/meta/web/MetaController.java:100"
-"Actions","操作",,"resources/views/Menu.xml:97"
+"Actions","操作",,"resources/views/Menu.xml:98"
 "Activate on","激活时间",,"resources/domains/User.xml:22"
 "Activate the user from the specified date.","在指定的时间激活用户。",,"resources/domains/User.xml:22"
-"Active","激活",,"resources/domains/MetaSchedule.xml:19"
+"Active","激活",,"resources/domains/MetaFilterChain.xml:14
+resources/domains/MetaSchedule.xml:19"
 "Administration","管理",,"resources/views/Menu.xml:6"
-"All Actions","操作",,"resources/views/Menu.xml:95
+"All Actions","操作",,"resources/views/Menu.xml:96
 resources/views/Meta.xml:103"
-"All Charts","图表",,"resources/views/Menu.xml:130
-resources/views/Menu.xml:132
+"All Charts","图表",,"resources/views/Menu.xml:131
+resources/views/Menu.xml:133
 resources/views/Meta.xml:76"
-"All Menus","菜单",,"resources/views/Menu.xml:86"
-"All Models","模型",,"resources/views/Menu.xml:59"
-"All Modules","模块",,"resources/views/Menu.xml:50
+"All Filter Chains","过滤器链",,"resources/views/Menu.xml:150
+resources/views/Menu.xml:152"
+"All Menus","菜单",,"resources/views/Menu.xml:87"
+"All Models","模型",,"resources/views/Menu.xml:60"
+"All Modules","模块",,"resources/views/Menu.xml:51
 resources/views/Meta.xml:33"
-"All Schedules","计划任务",,"resources/views/Menu.xml:140
-resources/views/Menu.xml:142"
-"All Selects","选项",,"resources/views/Menu.xml:103
+"All Schedules","计划任务",,"resources/views/Menu.xml:141
+resources/views/Menu.xml:143"
+"All Selects","选项",,"resources/views/Menu.xml:104
 resources/views/Meta.xml:173"
-"All Sequences","序列",,"resources/views/Menu.xml:68"
-"All Translations","国际化",,"resources/views/Menu.xml:121
-resources/views/Menu.xml:123
+"All Sequences","序列",,"resources/views/Menu.xml:69"
+"All Translations","国际化",,"resources/views/Menu.xml:122
+resources/views/Menu.xml:124
 resources/views/Meta.xml:293"
-"All Views","视图",,"resources/views/Menu.xml:77
+"All Views","视图",,"resources/views/Menu.xml:78
 resources/views/Meta.xml:64"
 "All the customizations will be lost. Are you sure ?","所有的自定义设置都将丢失。你确定吗？",,"resources/views/Meta.xml:66"
 "All views have been restored.","所有视图已恢复。",,"java/com/axelor/meta/web/MetaController.java:145"
@@ -90,6 +96,9 @@ resources/views/Meta.xml:320"
 "File type","文件类型",,"resources/domains/Meta.xml:171"
 "Files","文件",,"resources/views/Meta.xml:310
 resources/views/Meta.xml:318"
+"Filter Chain","过滤器链",,"resources/views/FilterChains.xml:27"
+"Filter Chain Management","过滤器链管理",,"resources/views/Menu.xml:12"
+"Filter Chains","过滤器链",,"resources/views/FilterChains.xml:20"
 "Filter custom","自定义过滤器",,"resources/domains/MetaFilter.xml:17"
 "Filter view","筛选视图",,"resources/domains/MetaFilter.xml:18"
 "Filters","过滤器",,"resources/domains/MetaFilter.xml:16
@@ -106,8 +115,8 @@ resources/views/Group.xml:18"
 "Groups","用户组",,"resources/domains/Meta.xml:36
 resources/domains/Meta.xml:66
 resources/views/Group.xml:12
-resources/views/Menu.xml:22
-resources/views/Menu.xml:25"
+resources/views/Menu.xml:23
+resources/views/Menu.xml:26"
 "Hidden","隐藏",,"resources/views/Group.xml:8"
 "Home action","操作",,"resources/domains/User.xml:19"
 "Icon","图标",,"resources/domains/Meta.xml:59"
@@ -123,6 +132,7 @@ resources/views/Menu.xml:25"
 "Job","任务",,"resources/domains/MetaSchedule.xml:22"
 "Job Management","任务管理",,"resources/views/Menu.xml:11"
 "Key","键",,"resources/domains/Meta.xml:157"
+"LOGOUT",,,"resources/views/FilterChains.xml:11"
 "Label","标签",,"resources/domains/Meta.xml:150"
 "Language","语言",,"resources/domains/Meta.xml:159
 resources/domains/User.xml:18"
@@ -134,7 +144,7 @@ resources/domains/User.xml:18"
 "Menu Item","菜单项",,"resources/views/Meta.xml:135"
 "Menu Items","菜单项",,"resources/views/Meta.xml:123"
 "Menus","菜单",,"resources/domains/Group.xml:22
-resources/views/Menu.xml:88"
+resources/views/Menu.xml:89"
 "Message","消息",,"resources/domains/Meta.xml:158"
 "Meta model","元模型",,"resources/domains/Meta.xml:146"
 "MetaScheduleParam",,,"resources/views/Schedules.xml:31"
@@ -143,7 +153,7 @@ resources/views/Menu.xml:88"
 resources/domains/Meta.xml:95
 resources/views/Meta.xml:226"
 "Model Management","模型管理",,"resources/views/Menu.xml:8"
-"Models","模型",,"resources/views/Menu.xml:61
+"Models","模型",,"resources/views/Menu.xml:62
 resources/views/Meta.xml:219"
 "Module","模块",,"resources/domains/Meta.xml:109
 resources/domains/Meta.xml:33
@@ -153,7 +163,8 @@ resources/domains/Meta.xml:96
 resources/views/Meta.xml:45
 resources/views/Meta.xml:46"
 "Module Management","模块管理",,"resources/views/Menu.xml:10"
-"Modules","模块",,"resources/views/Menu.xml:52"
+"Modules","模块",,"resources/views/Menu.xml:53"
+"NO_SESSION_CREATION",,,"resources/views/FilterChains.xml:10"
 "Name","名称",,"resources/domains/Group.xml:14
 resources/domains/Meta.xml:107
 resources/domains/Meta.xml:13
@@ -180,7 +191,8 @@ resources/domains/Permission.xml:14"
 "OneToMany","一对多",,"resources/views/Meta.xml:262"
 "OneToOne","一对一",,"resources/views/Meta.xml:260"
 "Order","顺序",,"resources/domains/Meta.xml:125"
-"Overview","概述",,"resources/views/Group.xml:22
+"Overview","概述",,"resources/views/FilterChains.xml:28
+resources/views/Group.xml:22
 resources/views/Meta.xml:112
 resources/views/Meta.xml:136
 resources/views/Meta.xml:163
@@ -196,10 +208,13 @@ resources/views/Role.xml:11
 resources/views/Schedules.xml:14
 resources/views/Schedules.xml:32
 resources/views/User.xml:21"
+"PERMS",,,"resources/views/FilterChains.xml:12"
+"PORT",,,"resources/views/FilterChains.xml:13"
 "Package","包",,"resources/domains/Meta.xml:135
 resources/domains/Meta.xml:148"
 "Padding","填充",,"resources/domains/MetaSequence.xml:15"
-"Params","参数",,"resources/domains/MetaSchedule.xml:24
+"Params","参数",,"resources/domains/MetaFilterChain.xml:12
+resources/domains/MetaSchedule.xml:24
 resources/views/Permission.xml:30"
 "Parent","上级",,"resources/domains/Meta.xml:64
 resources/domains/Meta.xml:82"
@@ -207,14 +222,15 @@ resources/domains/Meta.xml:82"
 resources/views/User.xml:38
 resources/views/User.xml:56"
 "Password doesn't match","密码不匹配",,"java/com/axelor/auth/AuthService.java:226"
+"Pattern","模式",,"resources/domains/MetaFilterChain.xml:10"
 "Pending","等待",,"resources/domains/Meta.xml:20"
 "Permission","权限",,"resources/views/Permission.xml:16"
 "Permissions","权限",,"resources/domains/Group.xml:20
 resources/domains/Role.xml:15
 resources/domains/User.xml:27
 resources/views/Group.xml:55
-resources/views/Menu.xml:40
-resources/views/Menu.xml:43
+resources/views/Menu.xml:41
+resources/views/Menu.xml:44
 resources/views/Permission.xml:6"
 "Portal","门户",,"resources/views/Meta.xml:12"
 "Preferences","首选项",,"resources/views/User.xml:50"
@@ -222,6 +238,8 @@ resources/views/Permission.xml:6"
 "Priority","优先级",,"resources/domains/Meta.xml:108
 resources/domains/Meta.xml:31
 resources/domains/Meta.xml:56"
+"REST",,,"resources/views/FilterChains.xml:14"
+"ROLES",,,"resources/views/FilterChains.xml:15"
 "Read","读",,"resources/domains/Permission.xml:15"
 "Relationship","关系",,"resources/domains/Meta.xml:151"
 "Removable","可删除",,"resources/domains/Meta.xml:18"
@@ -232,9 +250,10 @@ resources/domains/Meta.xml:56"
 "Role","角色",,"resources/views/Role.xml:10"
 "Roles","角色",,"resources/domains/Group.xml:19
 resources/domains/User.xml:26
-resources/views/Menu.xml:31
-resources/views/Menu.xml:34
+resources/views/Menu.xml:32
+resources/views/Menu.xml:35
 resources/views/Role.xml:6"
+"SSL",,,"resources/views/FilterChains.xml:16"
 "Schedule","计划任务",,"resources/domains/MetaSchedule.xml:12
 resources/views/Schedules.xml:13"
 "Schedules","计划任务",,"resources/views/Schedules.xml:6"
@@ -244,16 +263,17 @@ resources/views/Meta.xml:98"
 "Select","选项",,"resources/domains/Meta.xml:126
 resources/views/Meta.xml:179"
 "Select Item","选项",,"resources/views/Meta.xml:193"
-"Selects","选项",,"resources/views/Menu.xml:105"
+"Selects","选项",,"resources/views/Menu.xml:106"
 "Sequence","序列",,"resources/views/Meta.xml:247"
 "Sequence order","序列顺序",,"resources/views/Meta.xml:198"
-"Sequences","序列",,"resources/views/Menu.xml:70
+"Sequences","序列",,"resources/views/Menu.xml:71
 resources/views/Meta.xml:236"
 "Shared","共享",,"resources/domains/MetaFilter.xml:20"
 "Show Model","显示模型",,"resources/views/Meta.xml:282"
 "Show permissions","查看权限",,"resources/views/Group.xml:20"
 "Size","大小",,"resources/domains/Meta.xml:173"
 "Size in bytes","字节大小",,"resources/domains/Meta.xml:170"
+"Sort order","顺序",,"resources/domains/MetaFilterChain.xml:13"
 "Specify whether the members of this group are technical staff.","指定该组的成员是否是技术人员。",,"resources/domains/Group.xml:17"
 "Specify whether to block the user for an indeterminate times.","指定是否阻止用户一段时间。",,"resources/domains/User.xml:21"
 "Suffix","后缀",,"resources/domains/MetaSequence.xml:14"
@@ -278,7 +298,9 @@ resources/views/Meta.xml:303"
 "Tree","树",,"resources/views/Meta.xml:9"
 "Type","类型",,"resources/domains/Meta.xml:149
 resources/domains/Meta.xml:30
-resources/domains/Meta.xml:94"
+resources/domains/Meta.xml:94
+resources/domains/MetaFilterChain.xml:11"
+"USER",,,"resources/views/FilterChains.xml:17"
 "Uninstall","卸载",,"resources/views/Meta.xml:56"
 "Updated by","更新人",,"java/com/axelor/auth/db/AuditableModel.java:53"
 "Updated on","更新时间",,"java/com/axelor/auth/db/AuditableModel.java:46"
@@ -286,8 +308,8 @@ resources/domains/Meta.xml:94"
 resources/views/User.xml:20"
 "User Management","用户管理",,"resources/views/Menu.xml:7"
 "User preferences","用户偏好",,"resources/views/User.xml:51"
-"Users","用户",,"resources/views/Menu.xml:14
-resources/views/Menu.xml:16
+"Users","用户",,"resources/views/Menu.xml:15
+resources/views/Menu.xml:17
 resources/views/User.xml:11"
 "Validate","验证",,"resources/views/Schedules.xml:21"
 "Value","值",,"resources/domains/Meta.xml:123
@@ -296,7 +318,7 @@ resources/domains/MetaSchedule.xml:11"
 "View","视图",,"resources/views/Meta.xml:84"
 "View Management","视图管理",,"resources/views/Menu.xml:9"
 "Views","视图",,"resources/domains/Group.xml:23
-resources/views/Menu.xml:79"
+resources/views/Menu.xml:80"
 "Visible","显示",,"resources/views/Group.xml:7"
 "Whether to grant create access.","是否给予创建权限。",,"resources/domains/Permission.xml:17"
 "Whether to grant export access.","是否给予导出权限。",,"resources/domains/Permission.xml:19"

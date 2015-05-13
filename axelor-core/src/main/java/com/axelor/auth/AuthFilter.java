@@ -64,7 +64,7 @@ public class AuthFilter extends FormAuthenticationFilter {
 	
 	@Override
 	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-		List<MetaFilterChain> filterChains = Query.of(MetaFilterChain.class).cacheable().order("sortOrder").fetch();
+		List<MetaFilterChain> filterChains = Query.of(MetaFilterChain.class).filter("self.active = true").order("sortOrder").cacheable().fetch();
 		if (filterChains != null && !filterChains.isEmpty()) {
 			for (MetaFilterChain chain : filterChains) {
 				if (pathsMatch(chain.getPattern(), request)) {

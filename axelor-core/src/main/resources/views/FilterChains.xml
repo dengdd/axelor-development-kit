@@ -20,15 +20,17 @@
   <grid name="meta-filter-chain-grid" title="Filter Chains" model="com.axelor.meta.db.MetaFilterChain" editable="true" orderBy="sortOrder">
     <field name="pattern" />
     <field name="type" selection="filter.chain.type.selection"/>
-    <field name="config" />
+    <field name="params" />
+    <field name="active" />
   </grid>
 
   <form name="meta-filter-chain-form" title="Filter Chain" model="com.axelor.meta.db.MetaFilterChain">
     <panel title="Overview">
       <field name="pattern" />
       <field name="type" selection="filter.chain.type.selection"/>
-      <field name="config" />
+      <field name="params" />
       <field name="sortOrder" />
+      <field name="active" />
     </panel>
   </form>
   

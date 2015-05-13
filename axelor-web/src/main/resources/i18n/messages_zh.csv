@@ -44,12 +44,12 @@ webapp/partials/system.html:64"
 "Close Others","关闭其他",,"webapp/partials/nav-tabs.html:24"
 "Concurrent updates error.","并发更新错误。",,"webapp/js/axelor.app.js:453"
 "Create","创建",,"webapp/js/view/view.popup.js:667"
-"Create ""{0}"" and add...","创建 \""{0}\"" 并添加...",,"webapp/js/form/form.relational.multiple.js:698"
+"Create ""{0}"" and add...","创建 \""{0}\"" 并添加...",,"webapp/js/form/form.relational.multiple.js:702"
 "Create ""{0}"" and select...","创建 \""{0}\"" 并选择...",,"webapp/js/form/form.relational.single.js:321"
-"Create ""{0}""...","创建 \""{0}\""...",,"webapp/js/form/form.relational.multiple.js:702
+"Create ""{0}""...","创建 \""{0}\""...",,"webapp/js/form/form.relational.multiple.js:706
 webapp/js/form/form.relational.single.js:325"
 "Create new","新建",,"webapp/partials/views/trail.html:6"
-"Create...","创建...",,"webapp/js/form/form.relational.multiple.js:714
+"Create...","创建...",,"webapp/js/form/form.relational.multiple.js:718
 webapp/js/form/form.relational.single.js:332"
 "Created By:","创建人：",,"webapp/js/view/view.form.js:705"
 "Created On:","创建时间：",,"webapp/js/view/view.form.js:701"
@@ -63,7 +63,7 @@ webapp/js/view/view.form.js:730
 webapp/js/widget/widget.search.js:1012
 webapp/partials/views/grid.html:16
 webapp/partials/views/grid.html:17"
-"Do you really want to delete the selected record(s)?","您确定要删除选中的记录吗？",,"webapp/js/form/form.relational.multiple.js:200
+"Do you really want to delete the selected record(s)?","您确定要删除选中的记录吗？",,"webapp/js/form/form.relational.multiple.js:204
 webapp/js/view/view.grid.js:403
 webapp/js/view/view.popup.js:358"
 "Do you really want to delete the selected record?","您确定要删除选中的记录吗？",,"webapp/js/view/view.form.js:563"
@@ -72,7 +72,7 @@ webapp/js/view/view.popup.js:358"
 "Done","完成",,"webapp/js/form/form.input.datetime.js:67"
 "Download","下载",,"webapp/js/view/view.popup.js:728"
 "Duplicate","复制",,"webapp/js/view/view.form.js:738"
-"Edit","编辑",,"webapp/js/form/form.relational.multiple.js:573
+"Edit","编辑",,"webapp/js/form/form.relational.multiple.js:577
 webapp/js/form/form.relational.single.js:210
 webapp/partials/views/form.html:10
 webapp/partials/views/form.html:9
@@ -106,7 +106,7 @@ webapp/js/view/view.search.js:795"
 webapp/js/lib/dialogs.js:28
 webapp/js/lib/dialogs.js:96"
 "Internal Server Error","服务器错误",,"webapp/js/axelor.app.js:445"
-"Invalid use of ""{0}"" action, must be the first action.","使用的操作无效""{0}""，必须是第一个操作。",,"webapp/js/form/form.actions.js:398"
+"Invalid use of ""{0}"" action, must be the first action.","使用的操作无效""{0}""，必须是第一个操作。",,"webapp/js/form/form.actions.js:403"
 "Jan","一月",,"webapp/js/form/form.input.datetime.js:38"
 "January","一月",,"webapp/js/form/form.input.datetime.js:24"
 "Java Runtime","Java Runtime",,"webapp/partials/system.html:11"
@@ -139,7 +139,7 @@ webapp/js/form/form.input.datetime.js:42"
 "Month","月",,"webapp/partials/views/calendar.html:6"
 "More","更多",,"webapp/js/widget/widget.navmenu.js:209"
 "My Filters","我的过滤器",,"webapp/js/widget/widget.search.js:991"
-"New","新建",,"webapp/js/form/form.relational.multiple.js:574
+"New","新建",,"webapp/js/form/form.relational.multiple.js:578
 webapp/js/form/form.relational.single.js:211
 webapp/partials/views/form.html:6
 webapp/partials/views/form.html:7
@@ -167,7 +167,7 @@ webapp/js/view/view.search.js:353"
 "Orig. Value","原值",,"webapp/js/form/form.input.static.js:249"
 "Password","密码",,"webapp/login.jsp:29
 webapp/partials/login-window.html:6"
-"Please correct the invalid form values.","请修改无效表单的值。",,"webapp/js/form/form.actions.js:307"
+"Please correct the invalid form values.","请修改无效表单的值。",,"webapp/js/form/form.actions.js:312"
 "Please sign in","请登录",,"webapp/login.jsp:24"
 "Please wait...","请稍等...",,"webapp/js/axelor.app.js:203"
 "Preferences","首选项",,"webapp/index.jsp:120"
@@ -181,7 +181,7 @@ webapp/partials/system.html:63
 webapp/partials/views/calendar.html:11
 webapp/partials/views/trail.html:10"
 "Remember me","记住我",,"webapp/login.jsp:25"
-"Remove","删除",,"webapp/js/form/form.relational.multiple.js:575
+"Remove","删除",,"webapp/js/form/form.relational.multiple.js:579
 webapp/js/view/view.popup.js:729"
 "Sa","六",,"webapp/js/form/form.input.datetime.js:61"
 "Sat","周六",,"webapp/js/form/form.input.datetime.js:60"
@@ -196,12 +196,12 @@ webapp/partials/views/grid.html:14"
 "Save filter as","保存过滤器",,"webapp/js/widget/widget.search.js:1005"
 "Search","搜索",,"webapp/js/view/view.search.js:576"
 "Search Objects","查询对象",,"webapp/js/view/view.search.js:533"
-"Search...","搜索...",,"webapp/js/form/form.relational.multiple.js:708
+"Search...","搜索...",,"webapp/js/form/form.relational.multiple.js:712
 webapp/js/form/form.relational.single.js:314"
 "Second","秒",,"webapp/js/form/form.input.datetime.js:65"
-"Select","选择",,"webapp/js/form/form.relational.multiple.js:1078
-webapp/js/form/form.relational.multiple.js:1079
-webapp/js/form/form.relational.multiple.js:576
+"Select","选择",,"webapp/js/form/form.relational.multiple.js:1082
+webapp/js/form/form.relational.multiple.js:1083
+webapp/js/form/form.relational.multiple.js:580
 webapp/js/form/form.relational.nested.js:349
 webapp/js/form/form.relational.single.js:212
 webapp/js/view/view.popup.js:652"
@@ -209,7 +209,7 @@ webapp/js/view/view.popup.js:652"
 "September","九月",,"webapp/js/form/form.input.datetime.js:32"
 "Server is not responding.","服务器没有响应。",,"webapp/partials/login-window.html:14"
 "Share","共享",,"webapp/js/widget/widget.search.js:1007"
-"Show","显示",,"webapp/js/form/form.relational.multiple.js:1080
+"Show","显示",,"webapp/js/form/form.relational.multiple.js:1084
 webapp/js/widget/widget.slickgrid.js:1203"
 "Show Details","显示详情",,"webapp/js/axelor.app.js:392"
 "Show archived","显示存档",,"webapp/js/widget/widget.search.js:517"
@@ -250,9 +250,9 @@ webapp/js/view/view.calendar.js:204"
 "User","用户",,"webapp/partials/login-window.html:4
 webapp/partials/system.html:44"
 "User name","用户名",,"webapp/login.jsp:28"
-"Validation error","验证错误",,"webapp/js/form/form.actions.js:308"
+"Validation error","验证错误",,"webapp/js/form/form.actions.js:313"
 "View","视图",,"webapp/js/form/form.input.static.js:170"
-"Warning","警告",,"webapp/js/form/form.actions.js:525
+"Warning","警告",,"webapp/js/form/form.actions.js:530
 webapp/js/lib/dialogs.js:34"
 "We","三",,"webapp/js/form/form.input.datetime.js:61"
 "Wed","周三",,"webapp/js/form/form.input.datetime.js:60"

@@ -44,12 +44,12 @@ webapp/partials/system.html:64"
 "Close Others","Fermer les autres",,"webapp/partials/nav-tabs.html:24"
 "Concurrent updates error.","Erreur , Modification concurrente détectée.",,"webapp/js/axelor.app.js:453"
 "Create","Créer",,"webapp/js/view/view.popup.js:667"
-"Create ""{0}"" and add...","Créer ""{0}"" et ajouter...",,"webapp/js/form/form.relational.multiple.js:698"
+"Create ""{0}"" and add...","Créer ""{0}"" et ajouter...",,"webapp/js/form/form.relational.multiple.js:702"
 "Create ""{0}"" and select...","Créer ""{0}"" et sélectionner...",,"webapp/js/form/form.relational.single.js:321"
-"Create ""{0}""...","Créer ""{0}""...",,"webapp/js/form/form.relational.multiple.js:702
+"Create ""{0}""...","Créer ""{0}""...",,"webapp/js/form/form.relational.multiple.js:706
 webapp/js/form/form.relational.single.js:325"
 "Create new","Créer nouveau",,"webapp/partials/views/trail.html:6"
-"Create...","Créer...",,"webapp/js/form/form.relational.multiple.js:714
+"Create...","Créer...",,"webapp/js/form/form.relational.multiple.js:718
 webapp/js/form/form.relational.single.js:332"
 "Created By:","Crée par:",,"webapp/js/view/view.form.js:705"
 "Created On:","Crée le:",,"webapp/js/view/view.form.js:701"
@@ -63,7 +63,7 @@ webapp/js/view/view.form.js:730
 webapp/js/widget/widget.search.js:1012
 webapp/partials/views/grid.html:16
 webapp/partials/views/grid.html:17"
-"Do you really want to delete the selected record(s)?","Etes-vous sûr de vouloir supprimer ce(s) enregistrement(s) ?",,"webapp/js/form/form.relational.multiple.js:200
+"Do you really want to delete the selected record(s)?","Etes-vous sûr de vouloir supprimer ce(s) enregistrement(s) ?",,"webapp/js/form/form.relational.multiple.js:204
 webapp/js/view/view.grid.js:403
 webapp/js/view/view.popup.js:358"
 "Do you really want to delete the selected record?","Etes-vous sûr de vouloir supprimer l'enregistrement sélectionné ?",,"webapp/js/view/view.form.js:563"
@@ -72,7 +72,7 @@ webapp/js/view/view.popup.js:358"
 "Done","Choisir",,"webapp/js/form/form.input.datetime.js:67"
 "Download","Télécharger",,"webapp/js/view/view.popup.js:728"
 "Duplicate","Copier",,"webapp/js/view/view.form.js:738"
-"Edit","Modifier",,"webapp/js/form/form.relational.multiple.js:573
+"Edit","Modifier",,"webapp/js/form/form.relational.multiple.js:577
 webapp/js/form/form.relational.single.js:210
 webapp/partials/views/form.html:10
 webapp/partials/views/form.html:9
@@ -106,7 +106,7 @@ webapp/js/view/view.search.js:795"
 webapp/js/lib/dialogs.js:28
 webapp/js/lib/dialogs.js:96"
 "Internal Server Error","Erreur interne du serveur",,"webapp/js/axelor.app.js:445"
-"Invalid use of ""{0}"" action, must be the first action.","Utilisation invalide de l'action ""{0}"", doit être la première action.",,"webapp/js/form/form.actions.js:398"
+"Invalid use of ""{0}"" action, must be the first action.","Utilisation invalide de l'action ""{0}"", doit être la première action.",,"webapp/js/form/form.actions.js:403"
 "Jan","Janv",,"webapp/js/form/form.input.datetime.js:38"
 "January","Janvier",,"webapp/js/form/form.input.datetime.js:24"
 "Java Runtime","Runtime Java",,"webapp/partials/system.html:11"
@@ -139,7 +139,7 @@ webapp/js/form/form.input.datetime.js:42"
 "Month","Mois",,"webapp/partials/views/calendar.html:6"
 "More","Plus",,"webapp/js/widget/widget.navmenu.js:209"
 "My Filters","Mes filtres",,"webapp/js/widget/widget.search.js:991"
-"New","Nouveau",,"webapp/js/form/form.relational.multiple.js:574
+"New","Nouveau",,"webapp/js/form/form.relational.multiple.js:578
 webapp/js/form/form.relational.single.js:211
 webapp/partials/views/form.html:6
 webapp/partials/views/form.html:7
@@ -167,7 +167,7 @@ webapp/js/view/view.search.js:353"
 "Orig. Value","Valeur orig.",,"webapp/js/form/form.input.static.js:249"
 "Password","Mot de passe",,"webapp/login.jsp:29
 webapp/partials/login-window.html:6"
-"Please correct the invalid form values.","Merci de corriger les champs du formulaire non valides.",,"webapp/js/form/form.actions.js:307"
+"Please correct the invalid form values.","Merci de corriger les champs du formulaire non valides.",,"webapp/js/form/form.actions.js:312"
 "Please sign in","Identification",,"webapp/login.jsp:24"
 "Please wait...","Merci de patienter...",,"webapp/js/axelor.app.js:203"
 "Preferences","Préférences",,"webapp/index.jsp:120"
@@ -181,7 +181,7 @@ webapp/partials/system.html:63
 webapp/partials/views/calendar.html:11
 webapp/partials/views/trail.html:10"
 "Remember me","Se souvenir",,"webapp/login.jsp:25"
-"Remove","Supprimer",,"webapp/js/form/form.relational.multiple.js:575
+"Remove","Supprimer",,"webapp/js/form/form.relational.multiple.js:579
 webapp/js/view/view.popup.js:729"
 "Sa","S",,"webapp/js/form/form.input.datetime.js:61"
 "Sat","Sam",,"webapp/js/form/form.input.datetime.js:60"
@@ -196,12 +196,12 @@ webapp/partials/views/grid.html:14"
 "Save filter as","Sauver filter sous",,"webapp/js/widget/widget.search.js:1005"
 "Search","Rechercher",,"webapp/js/view/view.search.js:576"
 "Search Objects","Sélectionner objet",,"webapp/js/view/view.search.js:533"
-"Search...","Rechercher...",,"webapp/js/form/form.relational.multiple.js:708
+"Search...","Rechercher...",,"webapp/js/form/form.relational.multiple.js:712
 webapp/js/form/form.relational.single.js:314"
 "Second","Seconde",,"webapp/js/form/form.input.datetime.js:65"
-"Select","Selectionner",,"webapp/js/form/form.relational.multiple.js:1078
-webapp/js/form/form.relational.multiple.js:1079
-webapp/js/form/form.relational.multiple.js:576
+"Select","Selectionner",,"webapp/js/form/form.relational.multiple.js:1082
+webapp/js/form/form.relational.multiple.js:1083
+webapp/js/form/form.relational.multiple.js:580
 webapp/js/form/form.relational.nested.js:349
 webapp/js/form/form.relational.single.js:212
 webapp/js/view/view.popup.js:652"
@@ -209,7 +209,7 @@ webapp/js/view/view.popup.js:652"
 "September","Septembre",,"webapp/js/form/form.input.datetime.js:32"
 "Server is not responding.","Le serveur ne répond pas",,"webapp/partials/login-window.html:14"
 "Share","Partager",,"webapp/js/widget/widget.search.js:1007"
-"Show","Voir",,"webapp/js/form/form.relational.multiple.js:1080
+"Show","Voir",,"webapp/js/form/form.relational.multiple.js:1084
 webapp/js/widget/widget.slickgrid.js:1203"
 "Show Details","Afficher les détails",,"webapp/js/axelor.app.js:392"
 "Show archived","Afficher archives",,"webapp/js/widget/widget.search.js:517"
@@ -250,9 +250,9 @@ webapp/js/view/view.calendar.js:204"
 "User","Utilisateur",,"webapp/partials/login-window.html:4
 webapp/partials/system.html:44"
 "User name","Utilisateur",,"webapp/login.jsp:28"
-"Validation error","Erreur de validation",,"webapp/js/form/form.actions.js:308"
+"Validation error","Erreur de validation",,"webapp/js/form/form.actions.js:313"
 "View","Vue",,"webapp/js/form/form.input.static.js:170"
-"Warning","Avertissement",,"webapp/js/form/form.actions.js:525
+"Warning","Avertissement",,"webapp/js/form/form.actions.js:530
 webapp/js/lib/dialogs.js:34"
 "We","M",,"webapp/js/form/form.input.datetime.js:61"
 "Wed","Mer",,"webapp/js/form/form.input.datetime.js:60"

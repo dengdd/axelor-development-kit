@@ -9,8 +9,9 @@
   <entity name="MetaFilterChain" table="META_FILTER_CHAIN">
     <string name="pattern" />
     <string name="type" />
-    <string name="config" />
+    <string name="params" />
     <integer name="sortOrder" />
+    <boolean name="active" />
   </entity>
 
 </domain-models>

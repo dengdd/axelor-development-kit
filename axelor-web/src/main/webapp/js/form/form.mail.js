@@ -195,7 +195,11 @@ ui.directive('uiMailMessage', function () {
 				            "</ul>" +
 						"</div>" +
 					"</div>" +
-					"<div class='mail-message-subject'>{{message.subject}}</div>" +
+					"<div class='mail-message-subject' ng-if='message.$name'>" +
+						"<a ng-if='message.relatedId' href='#ds/form::{{message.relatedModel}}/edit/{{message.relatedId}}'>{{message.$name}}</a>" +
+						"<span ng-if='!message.relatedId'>{{message.$name}}</span>" +
+						"<span ng-if='message.subject'> : {{message.subject}}</span>" +
+					"</div>" +
 					"<div class='mail-message-body' ui-bind-template x-text='message.body'></div>" +
 					"<div class='mail-message-files' ng-show='message.$files.length'>" +
 						"<ul class='inline'>" +
@@ -681,7 +685,7 @@ ui.formWidget('PanelMail', {
 			if (!author) {
 				return;
 			}
-			$scope.openTabByName("action-auth-users", {
+			$scope.openTabByName("form:user-form", {
 				mode: "edit",
 				state: author.id
 			});
@@ -709,5 +713,57 @@ ui.formWidget('PanelMail', {
 	template_editable: null,
 	template: "<div class='form-mail row-fluid' ng-show='record.id > 0 || folder' ui-transclude></div>"
 });
+
+ui.controller("MailGroupListCtrl", MailGroupListCtrl);
+MailGroupListCtrl.$inject = ['$scope', '$element'];
+function MailGroupListCtrl($scope, $element) {
+	GridViewCtrl.call(this, $scope, $element);
+
+	$scope.getUrl = function (record) {
+		if (!record || !record.id) return null;
+		if (record.$image) {
+			return "ws/rest/com.axelor.mail.db.MailGroup/" + record.id + "/image/download?image=true";
+		}
+		return null;
+	}
+	
+	$scope.onEdit = function(record) {
+		$scope.switchTo('form', function (formScope) {
+			if (formScope.canEdit()) {
+				formScope.edit(record);
+			}
+		});
+	};
+	
+	$scope.onFollow = function (record) {
+
+		var ds = $scope._dataSource;
+		var promise = ds.messageFollow(record.id);
+
+		promise.success(function (res) {
+			record.$following = true;
+		});
+	};
+
+	$scope.onUnfollow = function (record) {
+
+		axelor.dialogs.confirm(_t('Are you sure to unfollow this group?'),
+		function (confirmed) {
+			if (confirmed) {
+				doUnfollow(record);
+			}
+		});
+	}
+
+	function doUnfollow(record) {
+
+		var ds = $scope._dataSource;
+		var promise = ds.messageUnfollow(record.id);
+
+		promise.success(function (res) {
+			record.$following = false;
+		});
+	};
+}
 
 })(this);

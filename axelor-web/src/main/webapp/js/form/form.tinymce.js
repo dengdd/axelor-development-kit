@@ -56,6 +56,7 @@ ui.formInput('Html', {
 		
 		var language = __appSettings['user.lang'] || '';
 		if (language === 'fr') language = 'fr_FR';
+		if (language === 'zh') language = 'zh_CN';
 		if (language === 'en') language = null;
 		
 		var heavyOptions = {

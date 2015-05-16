@@ -207,6 +207,22 @@
 	display: none;
 }
 
+/** special views */
+
+.mail-group-form,
+.mail-group-list {
+
+}
+
+.mail-group-form {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.mail-group-form {
+
+}
+
 .grid-cards {
 	padding: 12px;
 }
@@ -249,6 +265,7 @@
 .grid-cards .grid-card-left img {
 	width: 64px;
 	min-height: 64px;
+	padding: 2px;
 }
 
 .grid-cards .grid-card-right {

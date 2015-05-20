@@ -34,9 +34,13 @@ class Entity {
 	
 	transient long lastModified
 
+	private String interfaces
+
 	String baseClass
 
 	String strategy
+
+	boolean mappedSuper
 
 	boolean sequential
 
@@ -82,10 +86,12 @@ class Entity {
 		namespace = node.parent().module."@package"
 		module = node.parent().module.'@name'
 
+		mappedSuper = node.'@persistable' == 'false'
 		sequential = !(node.'@sequential' == "false")
 		groovy = node.'@lang' == "groovy"
 		hashAll = node.'@hashAll' == "true"
 		cachable = node.'@cachable'
+		interfaces = node.'@implements'
 		baseClass = node.'@extends'
 		strategy = node.'@strategy'
 		documentation = findDocs(node)
@@ -106,7 +112,7 @@ class Entity {
 
 		importManager = new ImportManager(namespace, groovy)
 
-		if (node.@repository != "none") {
+		if (node.@repository != "none" && !mappedSuper) {
 			repository = new Repository(this)
 			repository.concrete = node.@repository != "abstract"
 		}
@@ -124,6 +130,10 @@ class Entity {
 		indexes = []
 		finders = []
 		extraCode = null
+
+		if (interfaces) {
+			interfaces = interfaces.split(",").collect { importType(it.trim()) }.join(", ")
+		}
 
 		if (!baseClass) {
 			if (node.@logUpdates != "false") {
@@ -228,6 +238,11 @@ class Entity {
 
 	String getBaseClass() {
 		return importType(baseClass)
+	}
+
+	String getImplementStmt() {
+		if (!interfaces || interfaces.trim() == "") return ""
+		return " implements " + interfaces
 	}
 
 	String findDocs(parent) {
@@ -373,9 +388,13 @@ class Entity {
 
 	List<Annotation> getAnnotations() {
 
-		def all = [new Annotation(this, "javax.persistence.Entity", true), $cachable()]
+		def all = []
 
-		if (dynamicUpdate) {
+		if (!mappedSuper) {
+			all += [new Annotation(this, "javax.persistence.Entity", true), $cachable()]
+		}
+
+		if (!mappedSuper && dynamicUpdate) {
 			all += new Annotation(this, "org.hibernate.annotations.DynamicInsert", true)
 			all += new Annotation(this, "org.hibernate.annotations.DynamicUpdate", true)
 		}
@@ -383,6 +402,7 @@ class Entity {
 		all += $table()
 		all += $strategy()
 		all += $track()
+		all += $mappedSuperClass()
 
 		return all.grep { it != null }.flatten()
 				  .grep { Annotation a -> !a.empty }
@@ -406,7 +426,7 @@ class Entity {
 
 	List<Annotation> $table() {
 
-		if (!table) return []
+		if (!table || mappedSuper) return []
 
 		def constraints = this.constraints.collect {
 			def idx = new Annotation(this, "javax.persistence.UniqueConstraint", false)
@@ -445,6 +465,12 @@ class Entity {
 			return new Annotation(this, "javax.persistence.Cacheable", false).add("false", false)
 		}
 		return null
+	}
+
+	Annotation $mappedSuperClass() {
+		if (mappedSuper) {
+			return new Annotation(this, "javax.persistence.MappedSuperclass", true)
+		}
 	}
 
 	Annotation $strategy() {

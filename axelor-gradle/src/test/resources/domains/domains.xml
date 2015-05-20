@@ -5,7 +5,7 @@
 
   <module name="contact" package="com.axelor.contact.db" />
   
-  <entity name="Title" cachable="true" repository="abstract">
+  <entity name="Title" cachable="true" implements="java.io.Serializable" repository="abstract">
     <![CDATA[
     This class represents the name initial like Mr., Mrs. etc.
     
@@ -115,8 +115,8 @@
     <finder-method name="findByUser" using="user" all="false"/>
     
   </entity>
-  
-  <entity name="ConstraintTester">
+
+  <entity name="ConstraintTester" persistable="false">
     <string name="someName"/>
     <string name="anotherName" column="another"/>
     <many-to-one name="myTitle" ref="Title"/>
